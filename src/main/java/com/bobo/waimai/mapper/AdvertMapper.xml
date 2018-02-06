@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.waimai.mapper.AdvertMapper" >
+    <sql id="all">
+          SELECT
+        advert_id,
+        advert_name,
+        advert_create_time,
+        advert_picture_url,
+        food_id,
+        advert_description,
+        advert_button_text,
+        advert_show
+    </sql>
+
+    <sql id="advertAndFood">
+        ad.advert_id,
+        ad.advert_show,
+        ad.advert_name,
+        ad.advert_create_time,
+        ad.advert_picture_url,
+        ad.advert_description,
+        ad.advert_button_text,
+        ad.advert_show,
+        f.food_id,
+        f.food_price,
+        f.food_name,
+        f.food_sale_count,
+        f.food_create_time,
+        f.food_picture_url,
+        f.food_description,
+        f.food_type_id
+    </sql>
+    <resultMap id="advert" type="com.bobo.waimai.pojo.Advert">
+        <id column="advert_id" javaType="java.lang.Integer" property="advertId"></id>
+        <result column="advert_name" javaType="java.lang.String" property="advertName"></result>
+        <result column="advert_create_time" javaType="java.util.Date" property="advertCreateTime"></result>
+        <result column="advert_picture_url" javaType="java.lang.String" property="advertPictureUrl"></result>
+        <result column="advert_description" javaType="java.lang.String" property="advertDescription"></result>
+        <result column="advert_button_text" javaType="java.lang.String" property="advertButtonText"></result>
+        <result column="advert_show" javaType="java.lang.Integer" property="advertShow"></result>
+        <association property="food" javaType="com.bobo.waimai.pojo.Food" column="food_id">
+            <id column="food_id" javaType="java.lang.Integer" property="foodId"></id>
+            <result column="food_price" javaType="java.lang.Integer" property="foodPrice"></result>
+            <result column="food_name" javaType="java.lang.String" property="foodName"></result>
+            <result column="food_sale_count" javaType="java.lang.Integer" property="foodSaleCount"></result>
+            <result column="food_create_time" javaType="java.util.Date" property="foodCreateTime"></result>
+            <result column="food_picture_url" javaType="java.lang.String" property="foodPictureUrl"></result>
+            <result column="food_description" javaType="java.lang.String" property="foodDescription"></result>
+            <result column="food_type_id" javaType="java.lang.Integer" property="foodTypeId"></result>
+        </association>
+    </resultMap>
+
+    <resultMap id="advertSingle" type="com.bobo.waimai.pojo.Advert">
+        <id column="advert_id" javaType="java.lang.Integer" property="advertId"></id>
+        <result column="advert_name" javaType="java.lang.String" property="advertName"></result>
+        <result column="advert_create_time" javaType="java.util.Date" property="advertCreateTime"></result>
+        <result column="advert_picture_url" javaType="java.lang.String" property="advertPictureUrl"></result>
+        <result column="advert_description" javaType="java.lang.String" property="advertDescription"></result>
+        <result column="advert_button_text" javaType="java.lang.String" property="advertButtonText"></result>
+        <result column="advert_show" javaType="java.lang.Integer" property="advertShow"></result>
+        <result column="food_id" javaType="java.lang.Integer" property="foodId"></result>
+    </resultMap>
+
+    <select id="countAll" resultType="java.lang.Long">
+        select count(1) from advert;
+    </select>
+
+    <select id="getPageAdvert" resultMap="advert">
+        SELECT
+       <include refid="advertAndFood"></include>
+        FROM advert AS ad LEFT JOIN food as f
+        ON  ad.food_id=f.food_id
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="getAllAdverts" resultMap="advert">
+        SELECT
+        <include refid="advertAndFood"></include>
+        FROM advert AS ad LEFT JOIN food as f
+        ON  ad.food_id=f.food_id
+    </select>
+
+    <select id="getAdvertById" resultMap="advert">
+        SELECT
+        <include refid="advertAndFood"></include>
+        FROM advert AS ad LEFT JOIN food as f
+        ON  ad.food_id=f.food_id
+        WHERE  ad.advert_id=#{advertId}
+    </select>
+
+    <insert id="addAdvert" parameterType="com.bobo.waimai.pojo.Advert">
+        insert into advert (advert_name, advert_create_time, advert_picture_url,
+         food_id, advert_description, advert_button_text, advert_show)values
+         (#{advertName},#{advertCreateTime},#{advertPictureUrl},#{foodId},#{advertDescription},
+         #{advertButtonText},#{advertShow})
+    </insert>
+
+    <update id="updateAdvertById" parameterType="com.bobo.waimai.pojo.Advert">
+        update advert
+        <set>
+            <if test="advertName!=null">
+                advert_name=#{advertName},
+            </if>
+            <if test="advertPictureUrl!=null">
+                advert_picture_url=#{advertPictureUrl},
+            </if>
+            <if test="foodId!=null">
+                food_id=#{foodId},
+            </if>
+            <if test="advertDescription!=null">
+                advert_description=#{advertDescription},
+            </if>
+            <if test="advertButtonText!=null">
+                advert_button_text=#{advertButtonText},
+            </if>
+            <if test="advertShow!=null">
+                advert_show=#{advertShow},
+            </if>
+        </set>
+        where
+          advert_id=#{advertId}
+    </update>
+
+    <delete id="deleteFoodById" parameterType="java.lang.Integer">
+        delete from advert where advert_id=#{advertId}
+    </delete>
+</mapper>

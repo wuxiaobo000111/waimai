@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.waimai.mapper.FoodTypeMapper" >
+    <sql id="all">
+        food_type_id,
+        food_type_name
+    </sql>
+    <resultMap id="foodType" type="com.bobo.waimai.pojo.FoodType">
+        <id column="food_type_id" javaType="java.lang.Integer" property="foodTypeId"></id>
+        <result column="food_type_name" javaType="java.lang.String" property="foodTypeName"></result>
+    </resultMap>
+
+    <select id="countAll" resultType="java.lang.Long">
+        select count(1) from food_type
+    </select>
+
+    <select id="getPageFoodType" resultMap="foodType">
+        select <include refid="all"/> from food_type limit #{offset},#{limit}
+    </select>
+
+    <select id="countAllSearch" parameterType="java.lang.String">
+        select count(1) from food_type WHERE food_type_name like "%${searchName}%"
+    </select>
+    <select id="getPageFoodTypeSearch" resultMap="foodType">
+        select <include refid="all"/> from food_type where food_type_name like "%${searchName}" limit #{offset},#{limit}
+    </select>
+
+    <select id="getFoodTypeById" resultMap="foodType">
+        select <include refid="all"/> from food_type where food_type_id=#{foodTypeId}
+    </select>
+    <select id="getAll" resultMap="foodType">
+        select <include refid="all"/> from food_type;
+    </select>
+    <insert id="addFoodType">
+        insert into food_type (food_type_name) values(#{foodTypeName})
+    </insert>
+
+    <update id="updateUserById">
+        update food_type
+        <set>
+            <if test="foodTypeName!=null">
+                food_type_name=#{foodTypeName}
+            </if>
+        </set>
+        where food_type_id=#{foodTypeId}
+    </update>
+</mapper>

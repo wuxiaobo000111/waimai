@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.waimai.mapper.FoodMapper" >
+    <sql id="all">
+        food_id,
+        food_price,
+        food_name,
+        food_sale_count,
+        food_create_time,
+        food_picture_url,
+        food_description,
+        food_type_id
+    </sql>
+    <resultMap id="food" type="com.bobo.waimai.pojo.Food">
+        <id column="food_id" javaType="java.lang.Integer" property="foodId"></id>
+        <result column="food_price" javaType="java.lang.Integer" property="foodPrice"></result>
+        <result column="food_name" javaType="java.lang.String" property="foodName"></result>
+        <result column="food_sale_count" javaType="java.lang.Integer" property="foodSaleCount"></result>
+        <result column="food_create_time" javaType="java.util.Date" property="foodCreateTime"></result>
+        <result column="food_picture_url" javaType="java.lang.String" property="foodPictureUrl"></result>
+        <result column="food_description" javaType="java.lang.String" property="foodDescription"></result>
+        <result column="food_type_id" javaType="java.lang.Integer" property="foodTypeId"></result>
+    </resultMap>
+
+    <select id="countAll" resultType="java.lang.Long">
+        select count(1) from food
+    </select>
+
+    <select id="getPageFood" resultMap="food">
+        select <include refid="all"/>
+        from food limit #{offset},#{limit}
+    </select>
+
+    <select id="getFoodById" resultMap="food">
+        select <include refid="all"/> from food where food_id=#{foodId}
+    </select>
+    <select id="getAllFoods" resultMap="food">
+        select <include refid="all"/>
+        from food;
+    </select>
+    <insert id="addFood" parameterType="com.bobo.waimai.pojo.Food">
+        insert into food (food_price, food_name, food_create_time, food_picture_url, food_description,food_type_id)
+        values(#{foodPrice},#{foodName},#{foodCreateTime},#{foodPictureUrl},#{foodDescription},#{foodTypeId})
+    </insert>
+
+    <update id="updateFoodById" parameterType="com.bobo.waimai.pojo.Food">
+        update food
+        <set>
+            <if test="foodName!=null">
+                food_name=#{foodName},
+            </if>
+            <if test="foodPrice!=null">
+                food_price=#{foodPrice},
+            </if>
+            <if test="foodDescription!=null">
+                food_description=#{foodDescription},
+            </if>
+            <if test="foodPictureUrl!=null">
+                food_picture_url=#{foodPictureUrl},
+            </if>
+            <if test="foodTypeId!=null">
+                food_type_id=#{foodTypeId}
+            </if>
+        </set>
+        where food_id=#{foodId}
+    </update>
+    <delete id="deleteFoodById" parameterType="java.lang.Integer">
+        delete from food where food_id=#{foodId}
+    </delete>
+</mapper>

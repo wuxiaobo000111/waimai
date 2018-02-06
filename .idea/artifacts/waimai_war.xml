@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="waimai:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="waimai-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="waimai:war exploded" />
+    </root>
+  </artifact>
+</component>

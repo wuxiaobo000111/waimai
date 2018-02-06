@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.waimai.mapper.UserMapper" >
+    <sql id="all">
+        userid,
+        username,
+        userpassword,
+        userregistertime,
+        userphone,
+        useremail,
+        userheadurl
+    </sql>
+
+    <resultMap id="user" type="com.bobo.waimai.pojo.User">
+        <id property="userId" javaType="java.lang.Integer" column="userid"></id>
+        <result column="username" javaType="java.lang.String" property="userName"></result>
+        <result column="userpassword" javaType="java.lang.String" property="userPassword"></result>
+        <result column="userregistertime" javaType="java.util.Date" property="userRegisterTime"></result>
+        <result column="userphone" javaType="java.lang.String" property="userPhone"></result>
+        <result column="useremail" javaType="java.lang.String" property="userEmail"></result>
+        <result column="userheadurl" javaType="java.lang.String" property="userHeadUrl"></result>
+    </resultMap>
+
+   <select id="countAll" resultType="java.lang.Long">
+       select count(1) from user
+   </select>
+
+    <select id="getPageUser" resultMap="user">
+        select <include refid="all"/> from user limit #{offset},#{limit}
+    </select>
+
+    <select id="getUserById" resultMap="user">
+        SELECT <include refid="all"/> from user where userid=#{userId}
+    </select>
+    <select id="validateUserName" resultMap="user">
+        select <include refid="all"/> from `user` where username=#{userName}
+    </select>
+    <insert id="addUser" parameterType="com.bobo.waimai.pojo.User">
+        insert into `user`(username,userregistertime, userphone, useremail) values
+        (#{userName},#{userRegisterTime},#{userPhone},#{userEmail})
+    </insert>
+
+    <update id="updateUser" parameterType="com.bobo.waimai.pojo.User">
+        update `user`
+        <set>
+            <if test="userName!=null">
+                username=#{userName},
+            </if>
+            <if test="userPhone!=null">
+                userphone=#{userPhone},
+            </if>
+            <if test="userEmail!=null">
+                useremail=#{userEmail},
+            </if>
+        </set>
+        where userid=#{userId}
+    </update>
+
+    <delete id="deleteUserById" parameterType="java.lang.Integer">
+        delete from `user` where userid=#{userId}
+    </delete>
+</mapper>

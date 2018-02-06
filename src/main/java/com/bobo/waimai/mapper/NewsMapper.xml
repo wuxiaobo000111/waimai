@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.waimai.mapper.NewsMapper" >
+
+    <sql id="all">
+        n.news_type_id,
+        n.news_author_name,
+        n.news_create_time,
+        n.news_id,
+        n.news_text,
+        n.news_title,
+        n.news_url,
+        t.news_type_id,
+        t.news_type_name
+    </sql>
+    <sql id="newsEntity">
+      news_type_id,
+      news_author_name,
+      news_create_time,
+      news_id,
+      news_text,
+      news_title,
+      news_url
+    </sql>
+    <resultMap id="news" type="com.bobo.waimai.pojo.News">
+        <id column="news_id" javaType="java.lang.Integer" property="newsId"></id>
+        <result column="news_author_name" javaType="java.lang.String" property="newsAuthorName"></result>
+        <result column="news_create_time" javaType="java.util.Date" property="newsCreateTime"></result>
+        <result column="news_type_id" javaType="java.lang.Integer" property="newsTypeId"></result>
+        <result column="news_text" javaType="java.lang.String" property="newsText"></result>
+        <result column="news_title" javaType="java.lang.String" property="newsTitle"></result>
+        <result column="news_url" javaType="java.lang.String" property="newsUrl"></result>
+    </resultMap>
+
+    <resultMap id="newsEntity" type="com.bobo.waimai.pojo.News">
+        <id column="news_id" javaType="java.lang.Integer" property="newsId"></id>
+        <result column="news_author_name" javaType="java.lang.String" property="newsAuthorName"></result>
+        <result column="news_create_time" javaType="java.util.Date" property="newsCreateTime"></result>
+        <result column="news_text" javaType="java.lang.String" property="newsText"></result>
+        <result column="news_title" javaType="java.lang.String" property="newsTitle"></result>
+        <result column="news_url" javaType="java.lang.String" property="newsUrl"></result>
+        <result column="news_type_id" javaType="java.lang.Integer" property="newsTypeId"></result>
+        <association property="newsType" column="news_type_id" javaType="com.bobo.waimai.pojo.NewsType">
+            <id column="news_type_id" javaType="java.lang.Integer" property="newsTypeId"></id>
+            <result column="news_type_name" javaType="java.lang.String" property="newsTypeName"></result>
+        </association>
+    </resultMap>
+
+
+    <select id="countAll" resultType="java.lang.Long">
+        select count(1) from news
+    </select>
+
+    <select id="getPageNews" resultMap="newsEntity">
+        select <include refid="all"/>
+        from news as n left join news_type t
+        on t.news_type_id=n.news_type_id
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="getNewsById" resultMap="newsEntity">
+        select <include refid="all"/>
+        from news as n left join news_type t
+        on t.news_type_id=n.news_type_id
+        where n.news_id=#{newsId}
+    </select>
+
+
+    <insert id="addNews" parameterType="com.bobo.waimai.pojo.News">
+        insert into news(news_type_id, news_title, news_url,
+         news_create_time, news_author_name, news_text)
+         values(#{newsTypeId},#{newsTitle},#{newsUrl},#{newsCreateTime},#{newsAuthorName},#{newsText})
+    </insert>
+
+    <update id="updateNews" parameterType="com.bobo.waimai.pojo.News">
+        update news
+        <set>
+            <if test="newsTypeId!=null">
+                news_type_id=#{newsTypeId},
+            </if>
+            <if test="newsTitle!=null">
+                news_title=#{newsTitle},
+            </if>
+            <if test="newsAuthorName!=null">
+                news_author_name=#{newsAuthorName},
+            </if>
+            <if test="newsText!=null">
+                news_text=#{newsText},
+            </if>
+        </set>
+        where news_id=#{newsId}
+    </update>
+
+    <delete id="deleteNewsById" parameterType="java.lang.Integer">
+        delete from news where news_id=#{newsId}
+    </delete>
+</mapper>

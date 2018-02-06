@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.waimai.mapper.ManagerMapper" >
+
+    <sql id="all">
+         managerid,
+         managername,
+         managerpassword
+    </sql>
+
+    <resultMap id="manager" type="com.bobo.waimai.pojo.Manager">
+        <id column="managerid" javaType="java.lang.Integer" property="managerId"></id>
+        <result column="managername" javaType="java.lang.String" property="managerName"></result>
+        <result column="managerpassword" javaType="java.lang.String" property="managerPassword"></result>
+    </resultMap>
+
+    <select id="getCountByNameAndPassword" resultType="java.lang.Integer">
+        select count(1) from manager where managername=#{managerName} and managerpassword=#{managerPassword}
+    </select>
+
+    <update id="updatePasswordByName">
+        update manager set managerpassword=#{password} where managername=#{managerName}
+    </update>
+</mapper>

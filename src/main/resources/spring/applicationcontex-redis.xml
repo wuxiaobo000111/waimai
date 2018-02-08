@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--  导入配置文件-->
+    <context:property-placeholder location="classpath*:conf/redis.properties"/>
+
+    <bean class="redis.clients.jedis.JedisPoolConfig" id="poolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"></property>
+        <property name="maxWaitMillis" value="${redis.maxWait}"></property>
+       <property name="testOnBorrow" value="${redis.testOnBorrow}"></property>
+        <property name="maxTotal" value="123"></property>
+        <property name="blockWhenExhausted" value="true"></property>
+    </bean>
+
+    <bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" id="jedisConnectionFactory">
+        <property name="hostName" value="${redis.host}"></property>
+        <property name="port" value="${redis.port}"></property>
+        <property name="poolConfig" ref="poolConfig">
+        </property>
+    </bean>
+
+    <!--序列化的方式-->
+    <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" id="stringRedisSerializer"></bean>
+    <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" id="jdkSerializationRedisSerializer"></bean>
+    <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" id="jsonRedisSerializer" >
+    </bean>
+    <bean class="org.springframework.data.redis.core.RedisTemplate" id="redisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"></property>
+        <property name="keySerializer" ref="stringRedisSerializer"></property>
+        <property name="hashKeySerializer" ref="jdkSerializationRedisSerializer"></property>
+        <property name="valueSerializer" ref="jsonRedisSerializer"></property>
+        <property name="hashValueSerializer" ref="jsonRedisSerializer"></property>
+    </bean>
+
+    <bean class="com.bobo.waimai.commons.redis.JedisService" id="jedisService"></bean>
+</beans>

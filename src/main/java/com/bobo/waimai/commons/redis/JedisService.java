@@ -33,9 +33,14 @@ package com.bobo.waimai.commons.redis;
 //  
 
 
+import com.bobo.waimai.commons.utils.StringUtils;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by tianrun-bobo on 2018/2/8/14:00.
@@ -52,7 +57,6 @@ public class JedisService {
 
     public void insertString(String key,String value){
         redisTemplate.opsForValue().set(key,value);
-        redisTemplate.opsForGeo();
     }
 
     public String getStringValue(String key){
@@ -62,6 +66,33 @@ public class JedisService {
 
     public void insertHash(String hash,String field,String value){
         redisTemplate.opsForHash().put(hash,field,value);
+    }
+
+    public void addListToJedis(String key,List<?> list){
+        for (int i=0;i<list.size();i++){
+            redisTemplate.opsForList().leftPush(key,list.get(i));
+        }
+    }
+
+    public List<?> getListInJedis(String key){
+        Long length = null;
+        if (StringUtils.isEmpty(key)==false){
+            length= (Long) redisTemplate.opsForList().getOperations().execute(new RedisCallback() {
+                @Override
+                public Long doInRedis(RedisConnection connection) throws DataAccessException {
+                    Long lLen=connection.lLen(key.getBytes());
+                    return lLen;
+                }
+            });
+            if (length>0){
+                List<?> list=redisTemplate.opsForList().range(key,0,length);
+                return list;
+            }else {
+                return null;
+            }
+        }else{
+            return null;
+        }
     }
 
 }

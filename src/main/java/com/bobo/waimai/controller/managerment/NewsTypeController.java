@@ -36,6 +36,7 @@ package com.bobo.waimai.controller.managerment;
 import com.bobo.waimai.commons.BaseJson;
 import com.bobo.waimai.commons.DataGridResult;
 import com.bobo.waimai.commons.GlobalFianlVar;
+import com.bobo.waimai.commons.redis.JedisService;
 import com.bobo.waimai.commons.utils.JsonUtils;
 import com.bobo.waimai.pojo.NewsType;
 import com.bobo.waimai.service.NewsTypeService;
@@ -46,6 +47,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +62,8 @@ public class NewsTypeController {
     @Autowired
     private NewsTypeService newsTypeService;
 
+    @Resource(name = "jedisService")
+    private JedisService jedisService;
 
     @RequestMapping(value = "/index.action")
     public ModelAndView getIndex(){
@@ -74,7 +78,9 @@ public class NewsTypeController {
         Long total=newsTypeService.countAll();
         List<NewsType> rows=new ArrayList();
         rows=newsTypeService.getPageNewsType(limit,offset);
+
         DataGridResult result=new DataGridResult(rows,total);
+
         return JsonUtils.objectToJson(result);
     }
 

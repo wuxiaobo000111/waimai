@@ -5,13 +5,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <!--  导入配置文件-->
-    <context:property-placeholder location="classpath*:conf/redis.properties"/>
+    <context:property-placeholder location="classpath*:conf/redis.properties" ignore-unresolvable="true"/>
 
     <bean class="redis.clients.jedis.JedisPoolConfig" id="poolConfig">
         <property name="maxIdle" value="${redis.maxIdle}"></property>
         <property name="maxWaitMillis" value="${redis.maxWait}"></property>
-       <property name="testOnBorrow" value="${redis.testOnBorrow}"></property>
-        <property name="maxTotal" value="123"></property>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"></property>
         <property name="blockWhenExhausted" value="true"></property>
     </bean>
 
@@ -35,5 +34,6 @@
         <property name="hashValueSerializer" ref="jsonRedisSerializer"></property>
     </bean>
 
-    <bean class="com.bobo.waimai.commons.redis.JedisService" id="jedisService"></bean>
+    <bean class="com.bobo.waimai.commons.redis.JedisService" id="jedisService">
+    </bean>
 </beans>

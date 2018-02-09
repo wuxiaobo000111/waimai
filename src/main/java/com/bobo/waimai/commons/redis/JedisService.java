@@ -34,6 +34,7 @@ package com.bobo.waimai.commons.redis;
 
 
 import com.bobo.waimai.commons.utils.StringUtils;
+import com.bobo.waimai.pojo.NewsType;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -45,7 +46,7 @@ import java.util.List;
 /**
  * Created by tianrun-bobo on 2018/2/8/14:00.
  */
-public class JedisService {
+public class JedisService implements BaseJedisService<NewsType> {
 
     @Resource(name = "redisTemplate")
     private  RedisTemplate redisTemplate;
@@ -95,4 +96,8 @@ public class JedisService {
         }
     }
 
+    @Override
+    public void reloadCache() {
+
+    }
 }

@@ -33,14 +33,15 @@ package com.bobo.waimai.service.impl;
 //  
 
 
+import com.bobo.waimai.commons.redis.JedisService;
 import com.bobo.waimai.mapper.NewsTypeMapper;
-import com.bobo.waimai.pojo.FoodType;
 import com.bobo.waimai.pojo.NewsType;
 import com.bobo.waimai.service.NewsTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -52,6 +53,9 @@ public class NewsTypeServiceImpl implements NewsTypeService {
     @Autowired
     private NewsTypeMapper newsTypeMapper;
 
+    @Resource(name = "jedisService")
+    private JedisService jedisService;
+
     @Override
     public Long countAll() {
         return newsTypeMapper.countAll();
@@ -59,7 +63,19 @@ public class NewsTypeServiceImpl implements NewsTypeService {
 
     @Override
     public List<NewsType> getPageNewsType(Integer limit, Integer offset) {
-        return newsTypeMapper.getPageNewsType(limit,offset);
+        /**
+         * 先判断在redis中有没有，如果有的话从redis中取出，如果没有的话，则在数据库中
+         * 进行查询，当查到结果的时候，首先存在redis中，然后展示结果数据
+         */
+//        List<NewsType> newsTypes = (List<NewsType>) jedisService.getListInJedis("newsTypes");
+//        if (newsTypes!=null){
+//            return newsTypes;
+//        }
+//        else{
+            List<NewsType> types =newsTypeMapper.getPageNewsType(limit,offset);
+            jedisService.addListToJedis("newsTypes",types);
+            return types;
+//        }
     }
 
     @Override

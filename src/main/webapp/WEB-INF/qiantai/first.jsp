@@ -59,18 +59,18 @@
             </li>
             <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="">反馈</a></li>
 
-            <li class="layui-nav-item layui-col-md-offset1 "><a href="">关于我们</a></li>
+            <li class="layui-nav-item layui-col-md-offset1 "><a href="/aboutus.action">关于我们</a></li>
         </ul>
     </div>
     <br><br>
     <div class="layui-container" style="width: 100%">
         <div class="layui-carousel" id="test1">
             <div carousel-item>
-                <div>条目1</div>
-                <div>条目2</div>
-                <div>条目3</div>
-                <div>条目4</div>
-                <div>条目5</div>
+               <c:forEach items="${adverts}" var="advert">
+                   <div>
+                       <img src="${advert.advertPictureUrl}" style="width: 100%;height: 400px">
+                   </div>
+               </c:forEach>
             </div>
         </div>
     </div>
@@ -117,7 +117,9 @@
             //,anim: 'updown' //切换动画方式
         });
     });
+    $(function () {
 
+    })
 </script>
 </body>
 </html>

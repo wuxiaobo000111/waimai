@@ -54,4 +54,6 @@ public interface AdvertService {
     public void deleteFoodById(Integer advertId) throws Exception;
 
     public List<Advert> getAllAdverts() throws Exception;
+
+    public List<Advert> getAllAdvertsWithShow();
 }

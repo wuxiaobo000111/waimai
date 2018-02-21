@@ -33,7 +33,9 @@ package com.bobo.waimai.controller.qiantai;
 //  
 
 
+import com.bobo.waimai.pojo.Advert;
 import com.bobo.waimai.pojo.NewsType;
+import com.bobo.waimai.service.AdvertService;
 import com.bobo.waimai.service.NewsTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,6 +54,8 @@ public class FirstController {
     @Autowired
     private NewsTypeService newsTypeService;
 
+    @Autowired
+    private AdvertService advertService;
 
     @RequestMapping(value = "index.action")
     public ModelAndView first(HttpServletRequest request){
@@ -60,7 +64,18 @@ public class FirstController {
         List<NewsType> newsTypes=new ArrayList<>();
         newsTypes = newsTypeService.getAllNewsTypes();
         modelAndView.addObject("newsTypes",newsTypes);
+//        修改，在页面加载的时候，同时也加载页面上的轮播图广告
+        List<Advert> adverts=new ArrayList<>();
+        adverts=advertService.getAllAdvertsWithShow();
+        modelAndView.addObject("adverts",adverts);
         System.err.println(request.getSession().getAttribute("user"));
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "aboutus.action")
+    public ModelAndView aboutUs(){
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.setViewName("qiantai/aboutus");
         return modelAndView;
     }
 }

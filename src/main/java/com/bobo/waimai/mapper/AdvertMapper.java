@@ -55,4 +55,6 @@ public interface AdvertMapper {
     public  void deleteFoodById(Integer advertId);
 
     public List<Advert> getAllAdverts();
+
+    public List<Advert> getAllAdvertsWithShow();
 }

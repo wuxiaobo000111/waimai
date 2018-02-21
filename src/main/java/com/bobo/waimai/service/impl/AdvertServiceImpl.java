@@ -86,4 +86,9 @@ public class AdvertServiceImpl implements AdvertService {
     public List<Advert> getAllAdverts() throws Exception {
         return advertMapper.getAllAdverts();
     }
+
+    @Override
+    public List<Advert> getAllAdvertsWithShow() {
+        return advertMapper.getAllAdvertsWithShow();
+    }
 }

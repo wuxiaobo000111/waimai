@@ -59,7 +59,7 @@
             </li>
             <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="">反馈</a></li>
 
-            <li class="layui-nav-item layui-col-md-offset1 "><a href="">关于我们</a></li>
+            <li class="layui-nav-item layui-col-md-offset1 "><a href="/aboutus.action">关于我们</a></li>
         </ul>
     </div>
     <br><br>

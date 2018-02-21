@@ -81,6 +81,14 @@
         ON  ad.food_id=f.food_id
     </select>
 
+    <select id="getAllAdvertsWithShow" resultMap="advert">
+        SELECT
+        <include refid="advertAndFood"></include>
+        FROM advert AS ad LEFT JOIN food as f
+        ON  ad.food_id=f.food_id
+        where ad.advert_show=1
+    </select>
+
     <select id="getAdvertById" resultMap="advert">
         SELECT
         <include refid="advertAndFood"></include>

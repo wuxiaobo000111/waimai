@@ -1,4 +1,5 @@
-package com.bobo.waimai.mapper;
+package com.bobo.waimai.controller.qiantai;
+
 //
 //                            _ooOoo_  
 //                           o8888888o  
@@ -32,30 +33,37 @@ package com.bobo.waimai.mapper;
 //  
 
 
+import com.bobo.waimai.commons.BaseJson;
+import com.bobo.waimai.commons.GlobalFianlVar;
+import com.bobo.waimai.commons.utils.JsonUtils;
 import com.bobo.waimai.pojo.User;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import com.bobo.waimai.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Created by bobo on 2018/1/30/19:01.
+ * Created by tianrun-bobo on 2018/2/21/15:45.
  */
-public interface UserMapper {
-//    获取用户一共有多少个
-    public Long countAll();
+@Controller
+@RequestMapping(value = "qiantaiuser")
+public class QianTaiUserController {
 
-    public List<User> getPageUser(@Param(value = "limit") Integer limit,
-                                  @Param(value = "offset") Integer offset);
+    @Autowired
+    private UserService userService;
 
-    public User getUserById(Integer userId);
-
-    public void addUser(User user);
-
-    public void updateUser(User user);
-
-    public User validateUserName(String userName);
-
-    public int deleteUserById(Integer userId);
-
-    public List<User> getUsers();
+    @RequestMapping(value = "validateUserName.action",produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String validateUserName(String userName){
+        User user = userService.validateUserName(userName);
+        BaseJson baseJson=null;
+        if (user!=null){
+            baseJson=new BaseJson(GlobalFianlVar.SUCCESS,null);
+            return JsonUtils.objectToJson(baseJson);
+        }else{
+            baseJson=new BaseJson(GlobalFianlVar.ERROR,"这个名字已经重复");
+            return JsonUtils.objectToJson(baseJson);
+        }
+    }
 }

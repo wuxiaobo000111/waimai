@@ -1,0 +1,113 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: tianrun-bobo
+  Date: 2018/2/21
+  Time: 13:54
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>河大外卖首页</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style type="text/css">
+        .daohang li a{
+            font-size: 18px;
+        }
+        .font{
+            font-size: 24px;
+        }
+    </style>
+
+</head>
+<body style="width: 100%;">
+
+<div class="layui-container" id="dtApp" style="width: 100%">
+    <div class="layui-container" style="width: 100%;height:auto;background-color: #E6E6E6">
+        <div class="layui-row">
+            <div class="layui-col-md1 layui-col-lg-offset10">
+                <a class="layui-btn layui-btn-primary" href="#">登录</a>
+            </div>
+            <div class="layui-col-md1">
+                <a class="layui-btn layui-btn-primary" href="/register/register.action">注册</a>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div  style="width: 100%">
+        <ul class="layui-nav layui-bg-green daohang" lay-filter="">
+            <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="">外卖</a></li>
+            <li class="layui-nav-item layui-col-md-offset1 layui-col-md1">
+                <a href="javascript:void(0);" id="news" onmouseover="loadnewsType">新闻</a>
+                <dl class="layui-nav-child">
+                    <c:forEach items="${newsTypes}" var="newsType">
+                        <dd><a href="">${newsType.newsTypeName}</a></dd>
+                    </c:forEach>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="">反馈</a></li>
+
+            <li class="layui-nav-item layui-col-md-offset1 "><a href="">关于我们</a></li>
+        </ul>
+    </div>
+    <br><br>
+    <div class="layui-container" style="width: 100%">
+        <div class="layui-carousel" id="test1">
+            <div carousel-item>
+                <div>条目1</div>
+                <div>条目2</div>
+                <div>条目3</div>
+                <div>条目4</div>
+                <div>条目5</div>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+    <div id="footer" style="width: 100%;height: 40px">
+        <div class="layui-col-md4" style="height: 300px">
+            <div style="border: 10px">
+                <p style="position: relative">地址:</p>
+                <p class="font">河南省开封市河南大学</p>
+            </div>
+        </div>
+        <div class="layui-col-md4" style="height: 300px">
+            <p>联系电话:</p>
+            <p class="font">18339290851</p>
+        </div>
+        <div class="layui-col-md4" style="height: 300px">
+            <p>制作人:</p>
+            <p class="font">吴晓波</p>
+        </div>
+
+    </div>
+</div>
+<script src="libs/jquery.min.js"></script>
+<script src="libs/vue.min.js"></script>
+<script src="layui/layui.js"></script>
+<script type="text/javascript">
+    layui.config({
+        version: '1515376178738' //为了更新 js 缓存，可忽略
+    });
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function(){
+        var laydate = layui.laydate //日期
+            ,laypage = layui.laypage //分页
+            ,layer = layui.layer //弹层
+            ,table = layui.table //表格
+            ,carousel = layui.carousel //轮播
+            ,upload = layui.upload //上传
+            ,element = layui.element; //元素操作
+        carousel.render({
+            elem: '#test1'
+            ,width: '100%' //设置容器宽度
+            ,height: "400px"
+            ,arrow: 'always' //始终显示箭头
+            //,anim: 'updown' //切换动画方式
+        });
+    });
+
+</script>
+</body>
+</html>

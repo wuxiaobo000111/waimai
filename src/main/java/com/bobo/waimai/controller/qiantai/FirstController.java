@@ -1,4 +1,5 @@
-package com.bobo.waimai.mapper;
+package com.bobo.waimai.controller.qiantai;
+
 //
 //                            _ooOoo_  
 //                           o8888888o  
@@ -32,30 +33,32 @@ package com.bobo.waimai.mapper;
 //  
 
 
-import com.bobo.waimai.pojo.User;
-import org.apache.ibatis.annotations.Param;
+import com.bobo.waimai.pojo.NewsType;
+import com.bobo.waimai.service.NewsTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by bobo on 2018/1/30/19:01.
+ * Created by tianrun-bobo on 2018/2/21/13:56.
  */
-public interface UserMapper {
-//    获取用户一共有多少个
-    public Long countAll();
+@Controller
+public class FirstController {
+    @Autowired
+    private NewsTypeService newsTypeService;
 
-    public List<User> getPageUser(@Param(value = "limit") Integer limit,
-                                  @Param(value = "offset") Integer offset);
 
-    public User getUserById(Integer userId);
-
-    public void addUser(User user);
-
-    public void updateUser(User user);
-
-    public User validateUserName(String userName);
-
-    public int deleteUserById(Integer userId);
-
-    public List<User> getUsers();
+    @RequestMapping(value = "index.action")
+    public ModelAndView first(){
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.setViewName("qiantai/first");
+        List<NewsType> newsTypes=new ArrayList<>();
+        newsTypes = newsTypeService.getAllNewsTypes();
+        modelAndView.addObject("newsTypes",newsTypes);
+        return modelAndView;
+    }
 }

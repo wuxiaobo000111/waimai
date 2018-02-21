@@ -34,8 +34,34 @@ package com.bobo.waimai.commons.redis;
 
 /**
  * Created by tianrun-bobo on 2018/2/9/10:36.
+ * @author tianrun-bobo
+ */
+
+import java.util.List;
+
+/**采用不同的方式将数据加载进入redis中去
+ * @param <E>
  */
 public interface BaseJedisService<E> {
 
+   /**
+    * 将所有的数据都加载进入redis
+    */
    public void reloadCache();
+
+   /**
+    * 将一个对象加入到redis中
+    * @param e
+    * @param key
+    */
+   public void insert(E e,String key) throws Exception;
+
+   /**
+    * 将一个组合对象加入到redis中去
+    * @param list
+    * @param key
+    */
+   public void insert(List<E> list,String key)throws Exception;
+
+
 }

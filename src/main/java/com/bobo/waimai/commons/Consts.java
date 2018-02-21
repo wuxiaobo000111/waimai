@@ -49,4 +49,7 @@ public class Consts {
     public static final String BASE_ADVERT_PATH="/waimai/advert/";
 
     public static final String BASE_NEWS_PATH="/waimai/news/";
+
+//    设置user表在redis中的key值
+    public static final String USER_IN_REDIS="users";
 }

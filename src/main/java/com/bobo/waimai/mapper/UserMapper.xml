@@ -25,6 +25,10 @@
        select count(1) from user
    </select>
 
+    <select id="getUsers" resultMap="user">
+        select <include refid="all"/> from `user`
+    </select>
+
     <select id="getPageUser" resultMap="user">
         select <include refid="all"/> from user limit #{offset},#{limit}
     </select>

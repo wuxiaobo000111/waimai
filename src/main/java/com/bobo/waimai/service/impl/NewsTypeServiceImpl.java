@@ -33,7 +33,6 @@ package com.bobo.waimai.service.impl;
 //  
 
 
-import com.bobo.waimai.commons.redis.JedisService;
 import com.bobo.waimai.mapper.NewsTypeMapper;
 import com.bobo.waimai.pojo.NewsType;
 import com.bobo.waimai.service.NewsTypeService;
@@ -41,7 +40,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -52,9 +50,6 @@ public class NewsTypeServiceImpl implements NewsTypeService {
 
     @Autowired
     private NewsTypeMapper newsTypeMapper;
-
-    @Resource(name = "jedisService")
-    private JedisService jedisService;
 
     @Override
     public Long countAll() {
@@ -73,7 +68,6 @@ public class NewsTypeServiceImpl implements NewsTypeService {
 //        }
 //        else{
             List<NewsType> types =newsTypeMapper.getPageNewsType(limit,offset);
-            jedisService.addListToJedis("newsTypes",types);
             return types;
 //        }
     }

@@ -40,8 +40,12 @@ import com.bobo.waimai.pojo.User;
 import com.bobo.waimai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by tianrun-bobo on 2018/2/21/15:45.
@@ -63,6 +67,35 @@ public class QianTaiUserController {
             return JsonUtils.objectToJson(baseJson);
         }else{
             baseJson=new BaseJson(GlobalFianlVar.ERROR,"这个名字已经重复");
+            return JsonUtils.objectToJson(baseJson);
+        }
+    }
+
+    @RequestMapping(value = "loginPage.action")
+    public ModelAndView loginPage(){
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.setViewName("qiantai/login");
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "login.action",produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String login(@RequestBody User user, HttpServletRequest request){
+        BaseJson baseJson=null;
+        if (user!=null){
+          Integer count=userService.validateUser(user);
+          if (count==1){
+              User currentuser=userService.getUserByUserName(user.getUserName());
+              request.getSession().setAttribute("user",currentuser);
+              baseJson=new BaseJson(GlobalFianlVar.SUCCESS,currentuser);
+              return JsonUtils.objectToJson(baseJson);
+          }else{
+              baseJson=new BaseJson(GlobalFianlVar.ERROR,"该用户不存在，请注册新的用户");
+              return JsonUtils.objectToJson(baseJson);
+          }
+        }else{
+            baseJson=new BaseJson(GlobalFianlVar.ERROR,"你输入的用户名和密码为空，请重新输入");
             return JsonUtils.objectToJson(baseJson);
         }
     }

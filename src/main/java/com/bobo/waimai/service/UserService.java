@@ -54,4 +54,8 @@ public interface UserService {
     public User validateUserName(String userName);
 
     public int deleteUserById(Integer userId);
+
+    public Integer validateUser(User user);
+
+    public User getUserByUserName(String userName);
 }

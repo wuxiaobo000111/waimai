@@ -27,11 +27,21 @@
 <div class="layui-container" id="head" style="width: 100%">
     <div class="layui-container" style="width: 100%;height:auto;background-color: #E6E6E6">
         <div class="layui-row">
-            <div class="layui-col-md1 layui-col-lg-offset10">
-                <a class="layui-btn layui-btn-primary" href="#">登录</a>
+            <div class="layui-col-md1 layui-col-lg-offset9">
+                <a class="layui-btn layui-btn-primary" href="/register/register.action">购物车</a>
+            </div>
+            <div class="layui-col-md1 ">
+                <c:choose>
+                    <c:when test="${! empty sessionScope.user}">
+                        <a class="layui-btn layui-btn-primary" href="#">${sessionScope.user.userName}的中心</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="layui-btn layui-btn-primary" href="/qiantaiuser/loginPage.action">登录</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
             <div class="layui-col-md1">
-                <a class="layui-btn layui-btn-primary" href="/register/register.action">注册</a>
+                <a class="layui-btn layui-btn-primary" href="/register/register.action">注 册</a>
             </div>
         </div>
     </div>

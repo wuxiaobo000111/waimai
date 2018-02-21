@@ -33,6 +33,12 @@
         select <include refid="all"/> from user limit #{offset},#{limit}
     </select>
 
+    <select id="validateUser" resultType="java.lang.Integer">
+        select count(1) from `user` where username=#{userName} and userpassword =#{userPassword}
+    </select>
+    <select id="getUserByUserName" resultMap="user">
+        select <include refid="all"/> from `user` where username=#{userName}
+    </select>
     <select id="getUserById" resultMap="user">
         SELECT <include refid="all"/> from user where userid=#{userId}
     </select>

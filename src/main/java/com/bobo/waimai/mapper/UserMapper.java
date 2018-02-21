@@ -58,4 +58,8 @@ public interface UserMapper {
     public int deleteUserById(Integer userId);
 
     public List<User> getUsers();
+
+    public  Integer validateUser(User user);
+
+    public User getUserByUserName(String userName);
 }

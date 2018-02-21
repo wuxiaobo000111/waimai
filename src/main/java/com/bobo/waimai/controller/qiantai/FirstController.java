@@ -40,6 +40,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,12 +54,13 @@ public class FirstController {
 
 
     @RequestMapping(value = "index.action")
-    public ModelAndView first(){
+    public ModelAndView first(HttpServletRequest request){
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.setViewName("qiantai/first");
         List<NewsType> newsTypes=new ArrayList<>();
         newsTypes = newsTypeService.getAllNewsTypes();
         modelAndView.addObject("newsTypes",newsTypes);
+        System.err.println(request.getSession().getAttribute("user"));
         return modelAndView;
     }
 }

@@ -79,21 +79,15 @@
     </div>
     <br><br>
     <div class="layui-container" style="width: 100%;height:auto;" >
-        <input type="text" value="${newsTypeId}" id="newsTypeId" hidden="hidden">
-        <div class="layui-row">
-            <div class="layui-col-md2">
-                <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                    <c:forEach items="${newsTypes}" var="newsType">
-                        <li class="layui-nav-item">
-                            <a href="javascript:void(0)" onclick="getNewsList(${newsType.newsTypeId})">${newsType.newsTypeName}</a>
-                        </li>
-                    </c:forEach>
-                </ul>
+        <div class="layui-col-md11" >
 
-            </div>
+        </div>
             <div class="layui-col-md10" id="newsList">
                 <table id="table"></table>
             </div>
+        </div>
+        <div class="layui-col-md10" >
+
         </div>
     </div>
 
@@ -180,10 +174,9 @@
             return false;
         });
     });
-    function getNewsList(newsTypeId) {
-        $("#table").bootstrapTable('destroy');
+    function getNewsList() {
         $('#table').bootstrapTable({
-            url:"/qiantaiNews/list.action?newsTypeId="+newsTypeId,
+            url:"/qiantaiCaritem/list.action",
             pageSize:4,
             classes:"table table-hover",
             cache:false,
@@ -195,7 +188,7 @@
             uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
             toolbar: '#toolbar',
             columns:[
-                { title: '', field: 'newsTitle'},
+                { title: '', field: 'foodName'},
                 { title: '', field: 'newsCreateTime'},
                 { title: '', field: 'newsAuthorName'},
                 { title: '', field: 'newsId',formatter:function (value,row,index) {

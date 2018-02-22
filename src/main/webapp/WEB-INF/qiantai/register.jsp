@@ -32,7 +32,7 @@
             </div>
             <div class="layui-col-md1 ">
                 <c:choose>
-                    <c:when test="${! empty sessionScope.user}">
+                    <c:when test="${!empty sessionScope.user}">
                         <a class="layui-btn layui-btn-primary" href="#">${sessionScope.user.userName}的中心</a>
                     </c:when>
                     <c:otherwise>

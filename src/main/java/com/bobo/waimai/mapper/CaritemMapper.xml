@@ -22,4 +22,12 @@
         insert into caritem(caritem_create_time, caritem_number, user_id, food_id)
         values(#{caritemCreateTime},#{caritemNumber},#{userId},#{foodId})
     </insert>
+
+    <select id="countAll" resultType="java.lang.Long">
+        select count(1) from caritem where user_id =#{userId}
+    </select>
+
+    <select id="getItems" resultMap="caritem">
+        select <include refid="all"/> from caritem where user_id=#{userId} limit #{offset},#{limit}
+    </select>
 </mapper>

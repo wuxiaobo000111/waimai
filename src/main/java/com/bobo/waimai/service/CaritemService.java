@@ -32,9 +32,17 @@ package com.bobo.waimai.service;
 //  
 
 
-import com.bobo.waimai.pojo.CarItem; /**
+import com.bobo.waimai.pojo.CarItem;
+
+import java.util.List;
+
+/**
  * Created by tianrun-bobo on 2018/2/22/17:26.
  */
 public interface CaritemService {
    public  void addCarItem(CarItem carItem) throws Exception;
+
+   public Long countAll(Integer userId);
+
+   public  List<CarItem> getItems(Integer limit, Integer offset, Integer userId);
 }

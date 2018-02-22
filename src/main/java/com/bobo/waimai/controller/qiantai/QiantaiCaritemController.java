@@ -34,9 +34,11 @@ package com.bobo.waimai.controller.qiantai;
 
 
 import com.bobo.waimai.commons.BaseJson;
+import com.bobo.waimai.commons.DataGridResult;
 import com.bobo.waimai.commons.GlobalFianlVar;
 import com.bobo.waimai.commons.utils.JsonUtils;
 import com.bobo.waimai.pojo.*;
+import com.bobo.waimai.pojo.extend.ExtendFood;
 import com.bobo.waimai.service.CaritemService;
 import com.bobo.waimai.service.FoodService;
 import com.bobo.waimai.service.FoodTypeService;
@@ -50,6 +52,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -129,5 +132,33 @@ public class QiantaiCaritemController {
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.setViewName("qiantai/car");
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/list.action",produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String NewsList(Integer limit,Integer offset,HttpServletRequest request){
+        User user= (User) request.getSession().getAttribute("user");
+        Long total=caritemService.countAll(user.getUserId());
+
+        List<CarItem> carItems=new ArrayList();
+        carItems=caritemService.getItems(limit,offset,user.getUserId());
+        List<ExtendFood> extendFoods=new ArrayList<>();
+        for (int i=0;i<carItems.size();i++){
+            CarItem carItem=carItems.get(i);
+            Food food=foodService.getFoodById(carItem.getFoodId());
+            ExtendFood extendFood=new ExtendFood();
+            extendFood.setCaritemNumber(carItem.getCaritemNumber());
+            extendFood.setFoodPictureUrl(food.getFoodPictureUrl());
+            extendFood.setFoodDescription(food.getFoodDescription());
+            extendFood.setFoodId(food.getFoodId());
+            extendFood.setFoodName(food.getFoodName());
+            extendFood.setFoodPrice(food.getFoodPrice());
+            extendFood.setFoodSaleCount(food.getFoodSaleCount());
+            extendFood.setFoodTypeId(food.getFoodTypeId());
+            extendFood.setFoodCreateTime(new Date());
+            extendFoods.add(extendFood);
+        }
+        DataGridResult result=new DataGridResult(extendFoods,total);
+        return JsonUtils.objectToJson(result);
     }
 }

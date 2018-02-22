@@ -1,4 +1,4 @@
-package com.bobo.waimai.service.impl;
+package com.bobo.waimai.pojo.extend;
 
 //
 //                            _ooOoo_  
@@ -33,36 +33,38 @@ package com.bobo.waimai.service.impl;
 //  
 
 
-import com.bobo.waimai.mapper.CaritemMapper;
-import com.bobo.waimai.pojo.CarItem;
-import com.bobo.waimai.service.CaritemService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.bobo.waimai.pojo.Food;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
- * Created by tianrun-bobo on 2018/2/22/17:26.
+ * Created by tianrun-bobo on 2018/2/22/21:56.
  */
-@Service
-public class CaritemServiceImpl implements CaritemService {
-    @Autowired
-    private CaritemMapper caritemMapper;
+public class ExtendFood extends Food implements Serializable {
+    private Integer caritemNumber;
 
-    @Override
-    public void addCarItem(CarItem carItem) throws Exception {
-        carItem.setCaritemCreateTime(new Date());
-        caritemMapper.addCarItem(carItem);
+    public void setCaritemNumber(Integer caritemNumber) {
+        this.caritemNumber = caritemNumber;
     }
 
-    @Override
-    public Long countAll(Integer userId) {
-        return caritemMapper.countAll(userId);
+    public Integer getCaritemNumber() {
+        return caritemNumber;
     }
 
+    public ExtendFood(Integer foodId, Integer foodPrice, String foodName,
+                      Integer foodSaleCount, Date foodCreateTime, String foodPictureUrl,
+                      String foodDescription, Integer caritemNumber) {
+        super(foodId, foodPrice, foodName, foodSaleCount, foodCreateTime, foodPictureUrl, foodDescription);
+        this.caritemNumber = caritemNumber;
+    }
+
+    public ExtendFood(){}
+
     @Override
-    public List<CarItem> getItems(Integer limit, Integer offset, Integer userId) {
-        return caritemMapper.getItems(limit,offset,userId);
+    public String toString() {
+        return "ExtendFood{" +
+                "caritemNumber=" + caritemNumber +
+                "} " + super.toString();
     }
 }

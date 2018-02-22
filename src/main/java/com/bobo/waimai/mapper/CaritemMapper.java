@@ -33,9 +33,20 @@ package com.bobo.waimai.mapper;
 //  
 
 
-import com.bobo.waimai.pojo.CarItem; /**
+import com.bobo.waimai.pojo.CarItem;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+/**
  * Created by tianrun-bobo on 2018/2/22/17:25.
  */
 public interface CaritemMapper {
     public void addCarItem(CarItem carItem);
+
+    public List<CarItem> getItems(@Param(value = "limit") Integer limit,
+                                  @Param(value = "offset") Integer offset,
+                                  @Param(value = "userId") Integer userId);
+
+    public Long countAll(Integer userId);
 }

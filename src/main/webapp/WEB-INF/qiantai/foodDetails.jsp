@@ -12,12 +12,7 @@
     <meta charset="UTF-8">
     <title>河大外卖登录</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css">
-    <link href="${pageContext.request.contextPath}/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
-
-    <link href="${pageContext.request.contextPath}/css/animate.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
     <style type="text/css">
         .daohang li a{
             font-size: 18px;
@@ -60,7 +55,7 @@
                 <a href="/qiantaiFood/index.action">外卖</a>
                 <dl class="layui-nav-child">
                     <c:forEach items="${foodTypes}" var="foodType">
-                        <dd><a href="/qiantaiFood/index.action?foodTypeId=${foodType.foodTypeId}">${foodType.foodTypeName}</a></dd>
+                        <dd><a href="/qiantaiNews/index.action?newsTypeId=${foodType.foodTypeId}">${foodType.foodTypeName}</a></dd>
                     </c:forEach>
                 </dl>
             </li>
@@ -78,23 +73,49 @@
         </ul>
     </div>
     <br><br>
-    <div class="layui-container" style="width: 100%;height:auto;" >
-        <input type="text" value="${foodTypeId}" id="foodTypeId" hidden="hidden">
+    <div class="layui-container" >
+
         <div class="layui-row">
-            <div class="layui-col-md2">
-                <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                    <c:forEach items="${foodTypes}" var="foodType">
-                        <li class="layui-nav-item">
-                            <a href="javascript:void(0)" onclick="getFoodsList(${foodType.foodTypeId})">${foodType.foodTypeName}</a>
-                        </li>
-                    </c:forEach>
-                </ul>
+            <div class="layui-col-md6">
+                <form class="layui-form" >
+                    <label class="layui-form-label">外卖图片</label>
+                    <div class="layui-input-block">
+                        <img src="${food.foodPictureUrl}">
+                    </div>
+                    <br>
+                    <label class="layui-form-label">外卖描述</label>
+                    <div class="layui-input-block">
+                        <input type="text" readonly value="${food.foodDescription}" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+                    </div>
+                    <br>
+                    <label class="layui-form-label">外卖价格</label>
+                    <div class="layui-input-block">
+                        <input type="text" readonly value="${food.foodPrice}" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+                    </div>
+                    <br>
+
+                </form>
 
             </div>
-            <div class="layui-col-md10" id="newsList">
-                <table id="table"></table>
+            <div class="layui-col-md4 layui-col-md-offset2" >
+                <form class="layui-form" id="form" action="/register/addUser.action" method="post">
+                    <label class="layui-form-label">购买数量</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="userName" id="userName" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+                        <p id="message"></p>
+                    </div>
+
+                    <br>
+                    <label class="layui-form-label">用户密码</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="userPassword" autocomplete="off" placeholder="请输入用户名密码" class="layui-input">
+                    </div>
+                    <br>
+
+                </form>
             </div>
         </div>
+
     </div>
 
     <br><br>
@@ -120,12 +141,8 @@
 <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
 <script src="${pageContext.request.contextPath}/libs/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/libs/vue.min.js"></script>
-<script src="${pageContext.request.contextPath}/libs/bootstrap/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/libs/jquery.serializejson.min.js"></script>
 <script src="${pageContext.request.contextPath}/libs/layer/layer.min.js"></script>
-<!-- bootstrap table -->
-<script src="${pageContext.request.contextPath}/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script src="${pageContext.request.contextPath}/libs/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript">
     layui.config({
         version: '1515376178738' //为了更新 js 缓存，可忽略
@@ -180,73 +197,6 @@
             return false;
         });
     });
-    function getFoodsList(foodTypeId) {
-        $("#table").bootstrapTable('destroy');
-        $('#table').bootstrapTable({
-            url:"/qiantaiFood/list.action?foodTypeId="+foodTypeId,
-            pageSize:4,
-            classes:"table table-hover",
-            cache:false,
-            pagination: true,	//显示分页条
-            sidePagination: 'server',//服务器端分页
-            strictSearch: true,
-            minimumCountColumns: 2,             //最少允许的列数
-            clickToSelect: true,               //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
-            toolbar: '#toolbar',
-            columns:[
-                {
-                    field: 'foodId',
-                    title: '序号',
-                    width: 40,
-                    formatter: function (value, row, index) {
-                        var pageSize = $('#table').bootstrapTable('getOptions').pageSize;
-                        var pageNumber = $('#table').bootstrapTable('getOptions').pageNumber;
-                        return pageSize * (pageNumber - 1) + index + 1;
-                    }
-                },
-                { title: '食物价格', field: 'foodPrice',formatter:function (value,row,index) {
-                    return value+"元";
-                }},
-                { title: '食物名称', field: 'foodName'},
-                { title: '卖出数量', field: 'foodSaleCount'},
-                { title: '创建时间', field: 'foodCreateTime'},
-                { title: '美图', field: 'foodPictureUrl',formatter:function (value,row,index) {
-                    var pic='<img src="'+value+'" style="width: 100px" height="60px">'
-                    return pic
-                }},
-                { title: '描述', field: 'foodDescription'},
-                {
-                    title:'加入购物车',field:'foodId' ,formatter:function (value,row,index) {
-                    var edit = '<a href="javascript:void(0)" class="btn btn-primary btn-xs" onclick="addCar('+value+')">加入</a>';
-                    return edit;
-                }
-                }
-            ]
-        });
-
-    }
-    function addCar(foodId) {
-        $.get("/qiantaiCaritem/index.action",function (r) {
-            var data=JSON.parse(r);
-            if(data.code==1){
-                window.location.href="/qiantaiCaritem/details.action?foodId="+foodId;
-            }else{
-                layer.open({
-                    title:"提示信息",
-                    content:data.data,
-                    btn:["确定"],
-                    yes:function (index,layero) {
-                        window.location.href="/qiantaiuser/loginPage.action"
-                    }
-                })
-            }
-        })
-    }
-    $(function () {
-        var foodTypeId=$("#foodTypeId").val();
-        getFoodsList(foodTypeId);
-    })
 </script>
 </body>
 </html>

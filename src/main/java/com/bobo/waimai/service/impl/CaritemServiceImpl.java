@@ -33,12 +33,25 @@ package com.bobo.waimai.service.impl;
 //  
 
 
+import com.bobo.waimai.mapper.CaritemMapper;
+import com.bobo.waimai.pojo.CarItem;
 import com.bobo.waimai.service.CaritemService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * Created by tianrun-bobo on 2018/2/22/17:26.
  */
 @Service
 public class CaritemServiceImpl implements CaritemService {
+    @Autowired
+    private CaritemMapper caritemMapper;
+
+    @Override
+    public void addCarItem(CarItem carItem) throws Exception {
+        carItem.setCaritemCreateTime(new Date());
+        caritemMapper.addCarItem(carItem);
+    }
 }

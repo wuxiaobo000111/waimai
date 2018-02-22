@@ -98,20 +98,24 @@
 
             </div>
             <div class="layui-col-md4 layui-col-md-offset2" >
-                <form class="layui-form" id="form" action="/register/addUser.action" method="post">
+                <form class="layui-form" id="form" action="" method="post">
+                    <div class="layui-input-block" hidden="hidden">
+                        <input type="text" name="foodId" value="${food.foodId}" hidden="hidden"  autocomplete="off" placeholder="请输入用户名" class="layui-input">
+                    </div>
+                    <br>
                     <label class="layui-form-label">购买数量</label>
                     <div class="layui-input-block">
-                        <input type="text" name="userName" id="userName" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+                        <input type="text" name="caritemNumber"  autocomplete="off" placeholder="请输入购买数量" class="layui-input">
                         <p id="message"></p>
                     </div>
 
                     <br>
-                    <label class="layui-form-label">用户密码</label>
-                    <div class="layui-input-block">
-                        <input type="password" name="userPassword" autocomplete="off" placeholder="请输入用户名密码" class="layui-input">
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit="" lay-filter="formDemo">加入购物车</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
                     </div>
-                    <br>
-
                 </form>
             </div>
         </div>
@@ -166,7 +170,7 @@
         //监听提交
         form.on('submit(formDemo)', function(data){
             $.ajax({
-                url:"/qiantaiuser/login.action",
+                url:"/qiantaiCaritem/add.action",
                 data:JSON.stringify(data.field),
                 type:"post",
                 dataType:"json",
@@ -176,7 +180,7 @@
 //                   这里表示在数据库中验证成功；
                         layer.open({
                             title:"提示信息",
-                            content:"登录成功",
+                            content:r.data,
                             btn:["确定"],
                             yes:function (index,layero) {
                                 window.location.href="/index.action"

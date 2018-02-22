@@ -36,16 +36,14 @@ package com.bobo.waimai.controller.qiantai;
 import com.bobo.waimai.commons.BaseJson;
 import com.bobo.waimai.commons.GlobalFianlVar;
 import com.bobo.waimai.commons.utils.JsonUtils;
-import com.bobo.waimai.pojo.Food;
-import com.bobo.waimai.pojo.FoodType;
-import com.bobo.waimai.pojo.NewsType;
-import com.bobo.waimai.pojo.User;
+import com.bobo.waimai.pojo.*;
 import com.bobo.waimai.service.CaritemService;
 import com.bobo.waimai.service.FoodService;
 import com.bobo.waimai.service.FoodTypeService;
 import com.bobo.waimai.service.NewsTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -94,5 +92,22 @@ public class QiantaiCaritemController {
         Food food = foodService.getFoodById(foodId);
         modelAndView.addObject("food",food);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "add.action",produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String addItem(@RequestBody CarItem carItem,HttpServletRequest request){
+        BaseJson baseJson=null;
+        User user= (User) request.getSession().getAttribute("user");
+        carItem.setUserId(user.getUserId());
+        try{
+            caritemService.addCarItem(carItem);
+            baseJson=new BaseJson(GlobalFianlVar.SUCCESS,"添加成功");
+            return JsonUtils.objectToJson(baseJson);
+        }catch (Exception e){
+            baseJson=new BaseJson(GlobalFianlVar.ERROR,"添加失败，请重新添加");
+            e.printStackTrace();
+            return JsonUtils.objectToJson(baseJson);
+        }
     }
 }

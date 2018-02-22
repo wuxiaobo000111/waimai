@@ -16,6 +16,10 @@
         <result column="user_id" property="userId" javaType="java.lang.Integer" ></result>
         <result column="food_id" property="foodId" javaType="java.lang.Integer" ></result>
         <result column="caritem_brought" property="caritemBrought" javaType="java.lang.Integer" ></result>
-
     </resultMap>
+
+    <insert id="addCarItem" parameterType="com.bobo.waimai.pojo.CarItem">
+        insert into caritem(caritem_create_time, caritem_number, user_id, food_id)
+        values(#{caritemCreateTime},#{caritemNumber},#{userId},#{foodId})
+    </insert>
 </mapper>

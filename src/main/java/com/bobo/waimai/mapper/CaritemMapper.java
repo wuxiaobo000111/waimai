@@ -33,8 +33,9 @@ package com.bobo.waimai.mapper;
 //  
 
 
-/**
+import com.bobo.waimai.pojo.CarItem; /**
  * Created by tianrun-bobo on 2018/2/22/17:25.
  */
-public class CaritemMapper {
+public interface CaritemMapper {
+    public void addCarItem(CarItem carItem);
 }

@@ -53,4 +53,7 @@ public interface FoodService {
     public void deleteFoodById(Integer foodId) throws Exception;
 
     public List<Food> getAllFoods();
+
+
+    public List<Food> getFoods(Integer limit, Integer offset, Integer foodTypeId);
 }

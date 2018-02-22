@@ -56,4 +56,8 @@ public interface FoodMapper {
     public void deleteFoodById(Integer foodId);
 
     public List<Food> getAllFoods();
+
+    public List<Food> getFoods(@Param(value = "limit") Integer limit,
+                               @Param(value = "offset") Integer offset,
+                               @Param(value = "foodTypeId") Integer foodTypeId);
 }

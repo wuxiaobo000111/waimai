@@ -30,6 +30,11 @@
         select <include refid="all"/>
         from food limit #{offset},#{limit}
     </select>
+    <select id="getFoods" resultMap="food">
+        select <include refid="all"/>
+        from food where food_type_id=#{foodTypeId}
+        limit #{offset},#{limit}
+    </select>
 
     <select id="getFoodById" resultMap="food">
         select <include refid="all"/> from food where food_id=#{foodId}

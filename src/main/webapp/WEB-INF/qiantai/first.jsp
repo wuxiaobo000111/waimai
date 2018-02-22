@@ -52,10 +52,10 @@
     <div  style="width: 100%">
         <ul class="layui-nav layui-bg-green daohang" lay-filter="">
             <li class="layui-nav-item layui-col-md-offset2 layui-col-md1">
-                <a href="">外卖</a>
+                <a href="/qiantaiFood/index.action">外卖</a>
                 <dl class="layui-nav-child">
                     <c:forEach items="${foodTypes}" var="foodType">
-                        <dd><a href="/qiantaiNews/index.action?newsTypeId=${foodType.foodTypeId}">${foodType.foodTypeName}</a></dd>
+                        <dd><a href="/qiantaiFood/index.action?foodTypeId=${foodType.foodTypeId}">${foodType.foodTypeName}</a></dd>
                     </c:forEach>
                 </dl>
             </li>

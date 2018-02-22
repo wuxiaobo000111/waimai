@@ -87,4 +87,11 @@ public class FoodServiceImpl implements FoodService {
     public List<Food> getAllFoods() {
         return foodMapper.getAllFoods();
     }
+
+    @Override
+    public List<Food> getFoods(Integer limit, Integer offset, Integer foodTypeId) {
+        return foodMapper.getFoods(limit,offset,foodTypeId);
+    }
+
+
 }

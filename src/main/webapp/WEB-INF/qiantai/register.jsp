@@ -28,7 +28,7 @@
     <div class="layui-container" style="width: 100%;height:auto;background-color: #E6E6E6">
         <div class="layui-row">
             <div class="layui-col-md1 layui-col-lg-offset8">
-                <a class="layui-btn layui-btn-primary" href="/register/register.action">购物车</a>
+                <a class="layui-btn layui-btn-primary" href="javasrript:void(0)" onclick="car()">购物车</a>
             </div>
             <div class="layui-col-md1 ">
                 <c:choose>
@@ -195,6 +195,31 @@
                 message.text(data.data);
             }
         });
+    }
+
+    function car() {
+        $.get("/qiantaiCaritem/car.action",function (r) {
+            var data=JSON.parse(r);
+            if(data.code==1){
+                layer.open({
+                    title:"提示信息",
+                    content:data.data,
+                    btn:["确定"],
+                    yes:function (index,layero) {
+                        window.location.href="/qiantaiCaritem/carList.action";
+                    }
+                })
+            }else{
+                layer.open({
+                    title:"提示信息",
+                    content:data.data,
+                    btn:["确定"],
+                    yes:function (index,layero) {
+                        window.location.href="/qiantaiuser/loginPage.action";
+                    }
+                })
+            }
+        })
     }
 
 </script>

@@ -110,4 +110,24 @@ public class QiantaiCaritemController {
             return JsonUtils.objectToJson(baseJson);
         }
     }
+
+    @RequestMapping(value = "car.action",produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String car(HttpServletRequest request){
+        BaseJson baseJson=null;
+        User user= (User) request.getSession().getAttribute("user");
+        if (user==null){
+            baseJson=new BaseJson(GlobalFianlVar.ERROR,"您还未登录，请重新登录");
+        }else{
+            baseJson=new BaseJson(GlobalFianlVar.SUCCESS,"您已经登录成功");
+        }
+        return JsonUtils.objectToJson(baseJson);
+    }
+
+    @RequestMapping(value = "carList.action")
+    public ModelAndView carlist(){
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.setViewName("qiantai/car");
+        return modelAndView;
+    }
 }

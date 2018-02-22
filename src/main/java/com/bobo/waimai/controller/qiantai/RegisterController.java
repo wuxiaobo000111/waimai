@@ -36,8 +36,10 @@ package com.bobo.waimai.controller.qiantai;
 import com.bobo.waimai.commons.BaseJson;
 import com.bobo.waimai.commons.GlobalFianlVar;
 import com.bobo.waimai.commons.utils.JsonUtils;
+import com.bobo.waimai.pojo.FoodType;
 import com.bobo.waimai.pojo.NewsType;
 import com.bobo.waimai.pojo.User;
+import com.bobo.waimai.service.FoodTypeService;
 import com.bobo.waimai.service.NewsTypeService;
 import com.bobo.waimai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +64,8 @@ public class RegisterController {
     private NewsTypeService newsTypeService;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private FoodTypeService foodTypeService;
 
     @RequestMapping(value = "register.action")
     public ModelAndView Index(){
@@ -71,6 +74,9 @@ public class RegisterController {
         List<NewsType> newsTypes=new ArrayList<>();
         newsTypes = newsTypeService.getAllNewsTypes();
         modelAndView.addObject("newsTypes",newsTypes);
+        List<FoodType> foodTypes=new ArrayList<>();
+        foodTypes=foodTypeService.getAll();
+        modelAndView.addObject("foodTypes",foodTypes);
         return modelAndView;
     }
 

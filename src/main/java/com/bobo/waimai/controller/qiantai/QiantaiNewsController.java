@@ -37,8 +37,10 @@ import com.bobo.waimai.commons.BaseJson;
 import com.bobo.waimai.commons.DataGridResult;
 import com.bobo.waimai.commons.GlobalFianlVar;
 import com.bobo.waimai.commons.utils.JsonUtils;
+import com.bobo.waimai.pojo.FoodType;
 import com.bobo.waimai.pojo.News;
 import com.bobo.waimai.pojo.NewsType;
+import com.bobo.waimai.service.FoodTypeService;
 import com.bobo.waimai.service.NewsService;
 import com.bobo.waimai.service.NewsTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +65,8 @@ public class QiantaiNewsController {
     private NewsService newsService;
     @Autowired
     private NewsTypeService newsTypeService;
+    @Autowired
+    private FoodTypeService foodTypeService;
     @RequestMapping(value = "index.action")
     public ModelAndView index(HttpServletRequest request,Integer newsTypeId){
         ModelAndView modelAndView=new ModelAndView();
@@ -71,6 +75,9 @@ public class QiantaiNewsController {
         newsTypes = newsTypeService.getAllNewsTypes();
         modelAndView.addObject("newsTypes",newsTypes);
         modelAndView.addObject("newsTypeId",newsTypeId);
+        List<FoodType> foodTypes=new ArrayList<>();
+        foodTypes=foodTypeService.getAll();
+        modelAndView.addObject("foodTypes",foodTypes);
         return modelAndView;
     }
 

@@ -89,6 +89,9 @@ public class FirstController {
         List<NewsType> newsTypes=new ArrayList<>();
         newsTypes = newsTypeService.getAllNewsTypes();
         modelAndView.addObject("newsTypes",newsTypes);
+        List<FoodType> foodTypes=new ArrayList<>();
+        foodTypes=foodTypeService.getAll();
+        modelAndView.addObject("foodTypes",foodTypes);
         return modelAndView;
     }
 }

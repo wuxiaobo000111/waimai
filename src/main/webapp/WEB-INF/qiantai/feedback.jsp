@@ -25,27 +25,25 @@
 <body style="width: 100%;">
 
 <div class="layui-container" id="head" style="width: 100%">
-    <div class="layui-container" style="width: 100%;height:auto;background-color: #E6E6E6">
-        <div class="layui-row">
-            <div class="layui-col-md1 layui-col-lg-offset8">
-                <a class="layui-btn layui-btn-primary" href="/register/register.action">购物车</a>
-            </div>
-            <div class="layui-col-md1 ">
-                <c:choose>
-                    <c:when test="${! empty sessionScope.user}">
-                        <a class="layui-btn layui-btn-primary" href="#">${sessionScope.user.userName}的中心</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a class="layui-btn layui-btn-primary" href="/qiantaiuser/loginPage.action">登录</a>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-            <div class="layui-col-md1">
-                <a class="layui-btn layui-btn-primary" href="/register/register.action">注 册</a>
-            </div>
-            <div class="layui-col-md1">
-                <a class="layui-btn layui-btn-primary" href="/qiantaiuser/lagout.action">登出</a>
-            </div>
+    <div class="layui-row">
+        <div class="layui-col-md1 layui-col-lg-offset8">
+            <a class="layui-btn layui-btn-primary" href="/register/register.action">购物车</a>
+        </div>
+        <div class="layui-col-md1 ">
+            <c:choose>
+                <c:when test="${! empty sessionScope.user}">
+                    <a class="layui-btn layui-btn-primary" href="#">${sessionScope.user.userName}的中心</a>
+                </c:when>
+                <c:otherwise>
+                    <a class="layui-btn layui-btn-primary" href="/qiantaiuser/loginPage.action">登录</a>
+                </c:otherwise>
+            </c:choose>
+        </div>
+        <div class="layui-col-md1">
+            <a class="layui-btn layui-btn-primary" href="/register/register.action">注 册</a>
+        </div>
+        <div class="layui-col-md1">
+            <a class="layui-btn layui-btn-primary" href="/qiantaiuser/lagout.action">登出</a>
         </div>
     </div>
     <br><br>
@@ -67,22 +65,37 @@
     </div>
     <br><br>
     <div class="layui-container" >
-        <form class="layui-form" id="form" action="/register/addUser.action" method="post">
+        <form class="layui-form" id="form" action="" method="post">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-block">
-                <input type="text" name="userName" id="userName" autocomplete="off" placeholder="请输入用户名" class="layui-input">
-                <p id="message"></p>
+                <input type="text"  id="userName" autocomplete="off" readonly value="${sessionScope.user.userName}" class="layui-input">
+
             </div>
 
             <br>
-            <label class="layui-form-label">用户密码</label>
+            <div class="layui-input-block"  hidden="hidden" >
+                <input type="text" name="userId" autocomplete="off" readonly value="${sessionScope.user.userId}" class="layui-input">
+
+            </div>
+
+            <br>
+            <label class="layui-form-label">反馈标题</label>
             <div class="layui-input-block">
-                <input type="password" name="userPassword" autocomplete="off" placeholder="请输入用户名密码" class="layui-input">
+                <input type="text" name="feedbackName" autocomplete="off"  class="layui-input">
+            </div>
+            <br>
+
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">反馈详细内容</label>
+                <div class="layui-input-block">
+                    <textarea name="feedbackMessage" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
             </div>
             <br>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="formDemo">登录</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="formDemo">反馈</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
@@ -137,7 +150,7 @@
         //监听提交
         form.on('submit(formDemo)', function(data){
             $.ajax({
-                url:"/qiantaiuser/login.action",
+                url:"/qiantaiFeedback/addFeedback.action",
                 data:JSON.stringify(data.field),
                 type:"post",
                 dataType:"json",
@@ -147,7 +160,7 @@
 //                   这里表示在数据库中验证成功；
                         layer.open({
                             title:"提示信息",
-                            content:"登录成功",
+                            content:"反馈成功",
                             btn:["确定"],
                             yes:function (index,layero) {
                                 window.location.href="/index.action"
@@ -159,7 +172,7 @@
                             content:r.data,
                             btn:["确定"],
                             yes:function (index,layero) {
-                                window.location.href="/register/register.action"
+                                window.location.href="/qiantaiFeedback/index.action"
                             }
                         })
                     }

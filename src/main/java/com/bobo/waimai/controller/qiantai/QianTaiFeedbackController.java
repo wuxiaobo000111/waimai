@@ -36,8 +36,9 @@ package com.bobo.waimai.controller.qiantai;
 import com.bobo.waimai.commons.BaseJson;
 import com.bobo.waimai.commons.GlobalFianlVar;
 import com.bobo.waimai.commons.utils.JsonUtils;
+import com.bobo.waimai.pojo.Feedback;
 import com.bobo.waimai.pojo.User;
-import com.bobo.waimai.service.UserService;
+import com.bobo.waimai.service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,64 +49,41 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by tianrun-bobo on 2018/2/21/15:45.
+ * Created by tianrun-bobo on 2018/2/22/8:10.
  */
 @Controller
-@RequestMapping(value = "qiantaiuser")
-public class QianTaiUserController {
-
+@RequestMapping(value = "qiantaiFeedback")
+public class QianTaiFeedbackController {
     @Autowired
-    private UserService userService;
+    private FeedbackService feedbackService;
 
-    @RequestMapping(value = "validateUserName.action",produces = "text/html;charset=UTF-8")
-    @ResponseBody
-    public String validateUserName(String userName){
-        User user = userService.validateUserName(userName);
-        BaseJson baseJson=null;
-        if (user!=null){
-            baseJson=new BaseJson(GlobalFianlVar.SUCCESS,null);
-            return JsonUtils.objectToJson(baseJson);
-        }else{
-            baseJson=new BaseJson(GlobalFianlVar.ERROR,"这个名字已经重复");
-            return JsonUtils.objectToJson(baseJson);
-        }
-    }
-
-    @RequestMapping(value = "loginPage.action")
-    public ModelAndView loginPage(){
+    @RequestMapping(value = "index.action")
+    public ModelAndView index(HttpServletRequest request){
         ModelAndView modelAndView=new ModelAndView();
-        modelAndView.setViewName("qiantai/login");
+        User user= (User) request.getSession().getAttribute("user");
+        if (user!=null){
+            modelAndView.setViewName("qiantai/feedback");
+       }
+        else{
+            modelAndView.setViewName("qiantai/login");
+        }
         return modelAndView;
     }
 
 
-    @RequestMapping(value = "login.action",produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "addFeedback",produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String login(@RequestBody User user, HttpServletRequest request){
+    public String adddFeedback(@RequestBody Feedback feedback){
         BaseJson baseJson=null;
-        if (user!=null){
-          Integer count=userService.validateUser(user);
-          if (count==1){
-              User currentuser=userService.getUserByUserName(user.getUserName());
-              request.getSession().setAttribute("user",currentuser);
-              baseJson=new BaseJson(GlobalFianlVar.SUCCESS,currentuser);
-              return JsonUtils.objectToJson(baseJson);
-          }else{
-              baseJson=new BaseJson(GlobalFianlVar.ERROR,"该用户不存在，请注册新的用户");
-              return JsonUtils.objectToJson(baseJson);
-          }
-        }else{
-            baseJson=new BaseJson(GlobalFianlVar.ERROR,"你输入的用户名和密码为空，请重新输入");
+        try {
+            feedbackService.addFeedBack(feedback);
+            baseJson=new BaseJson(GlobalFianlVar.SUCCESS,null);
+            return JsonUtils.objectToJson(baseJson);
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseJson=new BaseJson(GlobalFianlVar.ERROR,"没有反馈成功，请重新反馈");
             return JsonUtils.objectToJson(baseJson);
         }
     }
 
-    @RequestMapping(value = "lagout.action")
-    public String logout(HttpServletRequest request){
-        if (request.getSession().getAttribute("user")!=null){
-            request.getSession().removeAttribute("user");
-            return "redirect:/index.action";
-        }
-        return null;
-    }
 }

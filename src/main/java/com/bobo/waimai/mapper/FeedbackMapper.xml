@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.waimai.mapper.FeedbackMapper" >
+    <sql id="all">
+        feedback_id,
+        feedback_name,
+        feedback_create_time,
+        feedback_message,
+        user_id
+    </sql>
+    <sql id="feedbackEntity">
+         f.user_id,
+        f.feedback_id,
+        f.feedback_name,
+        f.feedback_create_time,
+        f.feedback_message,
+        u.userid,
+        u.username,
+        u.userpassword,
+        u.userregistertime,
+        u.userphone,
+        u.useremail,
+        u.userheadurl
+    </sql>
+    <resultMap id="feedbackEntity" type="com.bobo.waimai.pojo.Feedback">
+        <id property="feedbackId" column="feedback_id" javaType="java.lang.Integer"></id>
+        <result javaType="java.lang.String" column="feedback_name" property="feedbackName"></result>
+        <result javaType="java.util.Date" column="feedback_create_time" property="feedbackCreateTime"></result>
+        <result javaType="java.lang.String" column="feedback_message" property="feedbackMessage"></result>
+        <association property="user" column="user_id" javaType="com.bobo.waimai.pojo.User">
+            <id property="userId" javaType="java.lang.Integer" column="userid"></id>
+            <result column="username" javaType="java.lang.String" property="userName"></result>
+            <result column="userpassword" javaType="java.lang.String" property="userPassword"></result>
+            <result column="userregistertime" javaType="java.util.Date" property="userRegisterTime"></result>
+            <result column="userphone" javaType="java.lang.String" property="userPhone"></result>
+            <result column="useremail" javaType="java.lang.String" property="userEmail"></result>
+            <result column="userheadurl" javaType="java.lang.String" property="userHeadUrl"></result>
+        </association>
+    </resultMap>
+    <resultMap id="feedback" type="com.bobo.waimai.pojo.Feedback">
+        <id property="feedbackId" column="feedback_id" javaType="java.lang.Integer"></id>
+        <result javaType="java.lang.String" column="feedback_name" property="feedbackName"></result>
+        <result javaType="java.util.Date" column="feedback_create_time" property="feedbackCreateTime"></result>
+        <result javaType="java.lang.String" column="feedback_message" property="feedbackMessage"></result>
+        <result javaType="java.lang.Integer" column="user_id" property="userId"></result>
+    </resultMap>
+
+    <insert id="addFeedBack" parameterType="com.bobo.waimai.pojo.Feedback">
+        insert into feedback (feedback_name, feedback_create_time, feedback_message, user_id)
+        values (#{feedbackName},#{feedbackCreateTime},#{feedbackMessage},#{userId})
+    </insert>
+</mapper>

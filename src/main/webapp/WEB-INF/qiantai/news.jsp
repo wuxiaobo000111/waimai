@@ -66,27 +66,15 @@
         </ul>
     </div>
     <br><br>
-    <div class="layui-container" >
-        <form class="layui-form" id="form" action="/register/addUser.action" method="post">
-            <label class="layui-form-label">用户名</label>
-            <div class="layui-input-block">
-                <input type="text" name="userName" id="userName" autocomplete="off" placeholder="请输入用户名" class="layui-input">
-                <p id="message"></p>
+    <div class="layui-container" style="width: 100%" >
+        <div class="layui-row">
+            <div class="layui-col-md2">
+                你的内容 9/12
             </div>
-
-            <br>
-            <label class="layui-form-label">用户密码</label>
-            <div class="layui-input-block">
-                <input type="password" name="userPassword" autocomplete="off" placeholder="请输入用户名密码" class="layui-input">
+            <div class="layui-col-md10">
+                你的内容 3/12
             </div>
-            <br>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="formDemo">登录</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 
     <br><br>

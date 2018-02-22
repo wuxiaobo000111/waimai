@@ -27,7 +27,7 @@
 <div class="layui-container" id="head" style="width: 100%">
     <div class="layui-container" style="width: 100%;height:auto;background-color: #E6E6E6">
         <div class="layui-row">
-            <div class="layui-col-md1 layui-col-lg-offset9">
+            <div class="layui-col-md1 layui-col-lg-offset8">
                 <a class="layui-btn layui-btn-primary" href="/register/register.action">购物车</a>
             </div>
             <div class="layui-col-md1 ">
@@ -43,6 +43,9 @@
             <div class="layui-col-md1">
                 <a class="layui-btn layui-btn-primary" href="/register/register.action">注 册</a>
             </div>
+            <div class="layui-col-md1">
+                <a class="layui-btn layui-btn-primary" href="/qiantaiuser/lagout.action">登出</a>
+            </div>
         </div>
     </div>
     <br><br>
@@ -57,7 +60,7 @@
                     </c:forEach>
                 </dl>
             </li>
-            <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="">反馈</a></li>
+            <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="/qiantaiFeedback/index.action">反馈</a></li>
 
             <li class="layui-nav-item layui-col-md-offset1 "><a href="/aboutus.action">关于我们</a></li>
         </ul>

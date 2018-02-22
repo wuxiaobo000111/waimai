@@ -72,9 +72,9 @@
     </div>
     <br><br>
     <div class="layui-container" style="width: 100%;height:auto;" >
-        <input type="text" value="${newsTypeId}" id="newsTypeId" hidden="hidden">
+        <input type="text" value="${newsId}" id="newsId" hidden="hidden">
         <div class="layui-row">
-            <div class="layui-col-md2">
+            <div class="layui-col-md1">
                 <ul class="layui-nav layui-nav-tree" lay-filter="test">
                     <c:forEach items="${newsTypes}" var="newsType">
                         <li class="layui-nav-item">
@@ -85,7 +85,13 @@
 
             </div>
             <div class="layui-col-md10" id="newsList">
-                <table id="table"></table>
+                <h1 id="title"></h1>
+                <div id="box">
+
+                </div>
+            </div>
+            <div class="layui-col-md1">
+
             </div>
         </div>
     </div>
@@ -139,72 +145,18 @@
             ,arrow: 'always' //始终显示箭头
             //,anim: 'updown' //切换动画方式
         });
-        //监听提交
-        form.on('submit(formDemo)', function(data){
-            $.ajax({
-                url:"/qiantaiuser/login.action",
-                data:JSON.stringify(data.field),
-                type:"post",
-                dataType:"json",
-                contentType:"application/json",
-                success:function (r) {
-                    if (r.code==1){
-//                   这里表示在数据库中验证成功；
-                        layer.open({
-                            title:"提示信息",
-                            content:"登录成功",
-                            btn:["确定"],
-                            yes:function (index,layero) {
-                                window.location.href="/index.action"
-                            }
-                        })
-                    }else {
-                        layer.open({
-                            title:"提示信息",
-                            content:r.data,
-                            btn:["确定"],
-                            yes:function (index,layero) {
-                                window.location.href="/register/register.action"
-                            }
-                        })
-                    }
-                }
-            })
-            return false;
-        });
     });
-    function getNewsList(newsTypeId) {
-        $("#table").bootstrapTable('destroy');
-        $('#table').bootstrapTable({
-            url:"/qiantaiNews/list.action?newsTypeId="+newsTypeId,
-            pageSize:4,
-            classes:"table table-hover",
-            cache:false,
-            pagination: true,	//显示分页条
-            sidePagination: 'server',//服务器端分页
-            strictSearch: true,
-            minimumCountColumns: 2,             //最少允许的列数
-            clickToSelect: true,               //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
-            toolbar: '#toolbar',
-            columns:[
-                { title: '', field: 'newsTitle'},
-                { title: '', field: 'newsCreateTime'},
-                { title: '', field: 'newsAuthorName'},
-                { title: '', field: 'newsId',formatter:function (value,row,index) {
-                    var link='<a href="/qiantaiNews/detailsPage.action?newsId=' + value +'" class="btn btn-primary">新闻链接</a>';
-                    return link;
-                }}
-            ]
-        });
-
-    }
-    function refresh(){
-        window.location.reload();//刷新当前页面.
-    }
     $(function () {
-        var newsTypeId=$("#newsTypeId").val();
-        getNewsList(newsTypeId);
+        var newsId=$("#newsId").val();
+        $.get("/qiantaiNews/getNews.action?newsId="+newsId,function (r) {
+            var data=JSON.parse(r);
+            var box=$("#box");
+            if (data.code==1){
+                box.html(data.data.newsText);
+                $("#title").text(data.data.newsTitle);
+            }
+
+        })
     })
 </script>
 </body>

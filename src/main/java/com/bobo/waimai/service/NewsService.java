@@ -49,4 +49,6 @@ public interface NewsService {
    public  void updateNews(News news);
 
    public  void deleteNewsById(Integer newsId) throws Exception;
+
+   public List<News> getNews(Integer limit, Integer offset, Integer newsTypeId);
 }

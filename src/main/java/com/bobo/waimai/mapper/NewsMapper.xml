@@ -58,6 +58,14 @@
         limit #{offset}, #{limit}
     </select>
 
+    <select id="getNews" resultMap="newsEntity">
+        select <include refid="all"/>
+        from news as n left join news_type t
+        on t.news_type_id=n.news_type_id
+        where n.news_type_id=#{newsTypeId}
+        limit #{offset}, #{limit}
+    </select>
+
     <select id="getNewsById" resultMap="newsEntity">
         select <include refid="all"/>
         from news as n left join news_type t

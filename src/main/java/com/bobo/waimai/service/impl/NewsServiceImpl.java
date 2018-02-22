@@ -83,4 +83,9 @@ public class NewsServiceImpl implements NewsService {
     public void deleteNewsById(Integer newsId) throws Exception {
         newsMapper.deleteNewsById(newsId);
     }
+
+    @Override
+    public List<News> getNews(Integer limit, Integer offset, Integer newsTypeId) {
+        return newsMapper.getNews(limit,offset,newsTypeId);
+    }
 }

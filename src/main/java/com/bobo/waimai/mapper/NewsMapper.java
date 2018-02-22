@@ -53,4 +53,8 @@ public interface NewsMapper {
     public void updateNews(News news);
 
     public void deleteNewsById(Integer newsId);
+
+    public List<News> getNews(@Param(value = "limit") Integer limit,
+                              @Param(value = "offset") Integer offset,
+                              @Param(value = "newsTypeId") Integer newsTypeId);
 }

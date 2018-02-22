@@ -34,8 +34,10 @@ package com.bobo.waimai.controller.qiantai;
 
 
 import com.bobo.waimai.pojo.Advert;
+import com.bobo.waimai.pojo.FoodType;
 import com.bobo.waimai.pojo.NewsType;
 import com.bobo.waimai.service.AdvertService;
+import com.bobo.waimai.service.FoodTypeService;
 import com.bobo.waimai.service.NewsTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,6 +59,10 @@ public class FirstController {
     @Autowired
     private AdvertService advertService;
 
+    @Autowired
+    private FoodTypeService foodTypeService;
+
+
     @RequestMapping(value = "index.action")
     public ModelAndView first(HttpServletRequest request){
         ModelAndView modelAndView=new ModelAndView();
@@ -68,6 +74,10 @@ public class FirstController {
         List<Advert> adverts=new ArrayList<>();
         adverts=advertService.getAllAdvertsWithShow();
         modelAndView.addObject("adverts",adverts);
+//        修改，在页面加载的时候，同时也加载页面上的外卖类型
+        List<FoodType> foodTypes=new ArrayList<>();
+        foodTypes=foodTypeService.getAll();
+        modelAndView.addObject("foodTypes",foodTypes);
         System.err.println(request.getSession().getAttribute("user"));
         return modelAndView;
     }
@@ -76,6 +86,9 @@ public class FirstController {
     public ModelAndView aboutUs(){
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.setViewName("qiantai/aboutus");
+        List<NewsType> newsTypes=new ArrayList<>();
+        newsTypes = newsTypeService.getAllNewsTypes();
+        modelAndView.addObject("newsTypes",newsTypes);
         return modelAndView;
     }
 }

@@ -36,7 +36,9 @@ package com.bobo.waimai.controller.qiantai;
 import com.bobo.waimai.commons.BaseJson;
 import com.bobo.waimai.commons.GlobalFianlVar;
 import com.bobo.waimai.commons.utils.JsonUtils;
+import com.bobo.waimai.pojo.NewsType;
 import com.bobo.waimai.pojo.User;
+import com.bobo.waimai.service.NewsTypeService;
 import com.bobo.waimai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tianrun-bobo on 2018/2/21/15:45.
@@ -56,6 +60,8 @@ public class QianTaiUserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private NewsTypeService newsTypeService;
 
     @RequestMapping(value = "validateUserName.action",produces = "text/html;charset=UTF-8")
     @ResponseBody
@@ -75,6 +81,9 @@ public class QianTaiUserController {
     public ModelAndView loginPage(){
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.setViewName("qiantai/login");
+        List<NewsType> newsTypes=new ArrayList<>();
+        newsTypes = newsTypeService.getAllNewsTypes();
+        modelAndView.addObject("newsTypes",newsTypes);
         return modelAndView;
     }
 

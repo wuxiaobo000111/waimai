@@ -51,10 +51,10 @@
         <ul class="layui-nav layui-bg-green daohang" lay-filter="">
             <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="">外卖</a></li>
             <li class="layui-nav-item layui-col-md-offset1 layui-col-md1">
-                <a href="javascript:void(0);">新闻</a>
-                <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                <a href="/qiantaiNews/index.action" id="news" onmouseover="loadnewsType()">新闻</a>
+                <dl class="layui-nav-child">
                     <c:forEach items="${newsTypes}" var="newsType">
-                        <dd><a href="">${newsType.newsTypeName}</a></dd>
+                        <dd><a href="/qiantaiNews/index.action?newsTypeId=${newsType.newsTypeId}">${newsType.newsTypeName}</a></dd>
                     </c:forEach>
                 </dl>
             </li>

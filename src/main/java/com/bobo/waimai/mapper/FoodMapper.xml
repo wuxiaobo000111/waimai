@@ -69,7 +69,15 @@
         </set>
         where food_id=#{foodId}
     </update>
+
+    <update id="updateFoodCount">
+        update food set food_sale_count=#{foodSaleCount} where food_id=#{foodId}
+    </update>
     <delete id="deleteFoodById" parameterType="java.lang.Integer">
         delete from food where food_id=#{foodId}
     </delete>
+
+    <select id="getFoodByFoodName" resultMap="food">
+        select <include refid="all"/> from food where food_name=#{foodName}
+    </select>
 </mapper>

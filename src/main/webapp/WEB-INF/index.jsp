@@ -27,7 +27,7 @@
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <img alt="image" class="img-circle" src="/waimai/touxiang/touxiang.jpg"
+                            <img alt="image" class="img-circle" src="/waimai/waimai/touxiang/touxiang.jpg"
                             style="width: 60px" height="60px">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
@@ -36,14 +36,14 @@
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             	<li class="divider"></li>
-                                <li><a class="J_menuItem" href="/admin/updatePasswordPage.action">修改密码</a></li>
+                                <li><a class="J_menuItem" href="/waimai/admin/updatePasswordPage.action">修改密码</a></li>
                                 <li><a href="javascript:void(0)" onclick="layout()">安全退出</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="/index/home.action" data-index="0"><i class="fa fa-home"></i> <span class="nav-label">主页</span></a>
+                        <a class="J_menuItem" href="/waimai/index/home.action" data-index="0"><i class="fa fa-home"></i> <span class="nav-label">主页</span></a>
                     </li>
                     <li>
                         <a href="#">
@@ -53,7 +53,7 @@
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="/user/index.action">用户列表</a>
+                                <a class="J_menuItem" href="/waimai/user/index.action">用户列表</a>
                             </li>
                         </ul>
                     </li>
@@ -66,7 +66,7 @@
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="/druid">数据库监控</a>
+                                <a class="J_menuItem" href="/waimai/druid">数据库监控</a>
                             </li>
                         </ul>
                     </li>
@@ -79,12 +79,12 @@
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="/food/index.action">食物列表</a>
+                                <a class="J_menuItem" href="/waimai/food/index.action">食物列表</a>
                             </li>
                         </ul>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="/foodType/index.action">食物类型列表</a>
+                                <a class="J_menuItem" href="/waimai/foodType/index.action">食物类型列表</a>
                             </li>
                         </ul>
                     </li>
@@ -96,17 +96,17 @@
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="/advert/index.action">广告管理</a>
+                                <a class="J_menuItem" href="/waimai/advert/index.action">广告管理</a>
                             </li>
                         </ul>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="/news/index.action">新闻管理</a>
+                                <a class="J_menuItem" href="/waimai/news/index.action">新闻管理</a>
                             </li>
                         </ul>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="/newsType/index.action">新闻类型管理</a>
+                                <a class="J_menuItem" href="/waimai/newsType/index.action">新闻类型管理</a>
                             </li>
                         </ul>
                     </li>
@@ -155,10 +155,10 @@
                 <a href="javascript:void(0)" onclick="layout()" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
         	<div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/index/home.action" frameborder="0" data-id="home" seamless></iframe>
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/waimai/index/home.action" frameborder="0" data-id="home" seamless></iframe>
             </div>
         	<div class="footer">
-                <div class="pull-right">&copy; 2017-2099 <a href="http://www.gp1701.com/" target="_blank">GP1701</a>
+                <div class="pull-right">&copy; 2017-2099 <a href="http://www.bobo.com/" target="_blank">bobo</a>
                 </div>
             </div>
         </div>
@@ -263,7 +263,7 @@
     <script src="${pageContext.request.contextPath}/script/contabs.js"></script>
     <script type="text/javascript">
         function layout() {
-            $.get("/admin/layout.action",function (r) {
+            $.get("/waimai/admin/layout.action",function (r) {
                 var data=JSON.parse(r);
                 if (data.code==1) {
                    layer.open({
@@ -271,7 +271,7 @@
                        content:"退出成功",
                        btn:["确定"],
                        yes:function (index,layero) {
-                           window.location.href="/index.html"
+                           window.location.href="/waimai/index.html"
                        }
                    })
                 }

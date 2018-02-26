@@ -20,7 +20,7 @@
 <div id="dtApp" v-cloak>
     <br><br>
     <div class="col-md-12">
-        <form class="form-horizontal" id="form" method="post" action="/advert/addAdvert.action" enctype="multipart/form-data" >
+        <form class="form-horizontal" id="form" method="post" action="/waimai/advert/addAdvert.action" enctype="multipart/form-data" >
             <br><br>
             <div class="form-group">
                 <label class="col-sm-3 control-label">广告名称：</label>
@@ -77,7 +77,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">食物图片：</label>
                     <div class="col-sm-8">
-                        <img src="${advert.advertPictureUrl}" width="200px" height="120px" style="border: 5px">
+                        <img src="/waimai${advert.advertPictureUrl}" width="200px" height="120px" style="border: 5px">
                     </div>
                 </div>
             </c:if>
@@ -162,7 +162,7 @@
                         content:"修改成功",
                         btn:["确定"],
                         yes:function (index,layero) {
-                            window.location.href="/food/index.action"
+                            window.location.href="/waimai/food/index.action"
                         }
                     })
                 }else {

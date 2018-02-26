@@ -23,11 +23,11 @@ var vm = new Vue({
                 { title: '新闻创建时间', field: 'newsCreateTime'},
                 { title: '新闻作者姓名', field: 'newsAuthorName'},
                 { title: '新闻内容', field: 'newsId',formatter:function (value,row,index) {
-                    var link='<a href="/news/details.action?newsId=' + value +'" class="btn btn-primary">新闻链接</a>';
+                    var link='<a href="/waimai/news/details.action?newsId=' + value +'" class="btn btn-primary">新闻链接</a>';
                     return link;
                 }},
                 { title:'编辑', field:'newsId', formatter: function(value,row,index){
-                    var edit = '<a href="/news/edit.action?newsId=' + value + '" class="btn btn-success btn-xs">编辑</a>';
+                    var edit = '<a href="/waimai/news/edit.action?newsId=' + value + '" class="btn btn-success btn-xs">编辑</a>';
                     return edit;
                 }
                 },
@@ -45,7 +45,7 @@ var vm = new Vue({
             var option = T.btTableOption;
             var allColumns = columns;//合并列
             option.columns = allColumns;
-            option.url = '/news/list.action';
+            option.url = '/waimai/news/list.action';
 
             $('#table').bootstrapTable(option);
         },
@@ -55,14 +55,14 @@ var vm = new Vue({
                 content:"你确定要删除？",
                 btn:["确定"],
                 yes:function (index,layero) {
-                    $.get("/news/deleteNews.action?newsId="+newsId,function (r) {
+                    $.get("/waimai/news/deleteNews.action?newsId="+newsId,function (r) {
                         if (r.code==1){
                             layer.open({
                                 title:"提示信息",
                                 content:"删除成功",
                                 btn:["确定"],
                                 yes:function (index,layero) {
-                                    window.location.href="/news/index.action";
+                                    window.location.href="/waimai/news/index.action";
                                 }
                             })
                         }
@@ -74,7 +74,7 @@ var vm = new Vue({
             })
         },
         deleteBatch: function(){
-            T.doTask("newsId","/news/deleteMore.action");
+            T.doTask("newsId","/waimai/news/deleteMore.action");
         }
     }
 });

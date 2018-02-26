@@ -33,13 +33,22 @@ package com.bobo.waimai.service.impl;
 //  
 
 
+import com.bobo.waimai.commons.utils.DateUtils;
 import com.bobo.waimai.mapper.FoodMapper;
+import com.bobo.waimai.pojo.Discuss;
 import com.bobo.waimai.pojo.Food;
+import com.bobo.waimai.pojo.User;
+import com.bobo.waimai.pojo.extend.FoodDiscuss;
+import com.bobo.waimai.service.DiscussService;
 import com.bobo.waimai.service.FoodService;
+import com.bobo.waimai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +59,13 @@ public class FoodServiceImpl implements FoodService {
 
     @Autowired
     private FoodMapper foodMapper;
+
+    @Autowired
+    private DiscussService discussService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FoodService foodService;
 
     @Override
     public Long countAll() {
@@ -93,5 +109,46 @@ public class FoodServiceImpl implements FoodService {
         return foodMapper.getFoods(limit,offset,foodTypeId);
     }
 
+    @Override
+    public Food getFoodByFoodName(String foodName) {
+        return foodMapper.getFoodByFoodName(foodName);
+    }
 
+    @Override
+    public void updateFoodCount(Integer foodSaleCount, Integer foodId) {
+        foodMapper.updateFoodCount(foodSaleCount,foodId);
+    }
+
+    @Transactional
+    @Override
+    public List<FoodDiscuss> getDisucssByFoodId(Integer foodId) {
+       List<Discuss> discusses=new ArrayList<>();
+       discusses= discussService.getDiscussByFoodId(foodId);
+       List<FoodDiscuss> foodDiscusses=new ArrayList<>(10);
+       if (discusses.size()>0){
+           for (int i=0;i<discusses.size();i++){
+               Discuss discuss=discusses.get(i);
+               User user = userService.getUserById(discuss.getUserId());
+               Food food = foodService.getFoodById(foodId);
+               FoodDiscuss foodDiscuss=new FoodDiscuss();
+               foodDiscuss.setUserName(user.getUserName());
+               SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+               ParsePosition parsePosition=new ParsePosition(0);
+               foodDiscuss.setDiscussCreateTime(simpleDateFormat.parse(discuss.getDiscussCreateTime(),parsePosition));
+               foodDiscuss.setDiscussMessage(discuss.getDiscussMessage());
+               foodDiscuss.setFoodId(discuss.getFoodId());
+               foodDiscuss.setUserId(discuss.getUserId());
+               foodDiscuss.setDiscussId(discuss.getDiscussId());
+               foodDiscuss.setFood(food);
+               foodDiscusses.add(foodDiscuss);
+           }
+       }
+        return foodDiscusses;
+    }
+
+    public static void main(String[] args) {
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        ParsePosition parsePosition=new ParsePosition(0);
+       System.out.println(simpleDateFormat.parse("2018-09-10",parsePosition));
+    }
 }

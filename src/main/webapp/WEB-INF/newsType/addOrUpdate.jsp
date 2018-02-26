@@ -78,9 +78,9 @@
         var flag=$("#newsTypeId").val();
         var $newsType=$("#form").serializeJSON();
         if(flag!=""){
-            ajaxRequest("/newsType/updateNewsType.action",$newsType);
+            ajaxRequest("/waimai/newsType/updateNewsType.action",$newsType);
         }else {
-            ajaxRequest("/newsType/addNewsType.action",$newsType);
+            ajaxRequest("/waimai/newsType/addNewsType.action",$newsType);
         }
     }
     function ajaxRequest(url,food) {
@@ -99,7 +99,7 @@
                         content:"修改成功",
                         btn:["确定"],
                         yes:function (index,layero) {
-                            window.location.href="/newsType/index.action"
+                            window.location.href="/waimai/newsType/index.action"
                         }
                     })
                 }else {

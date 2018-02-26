@@ -33,18 +33,18 @@
             <div class="layui-col-md1 ">
                 <c:choose>
                     <c:when test="${! empty sessionScope.user}">
-                        <a class="layui-btn layui-btn-primary" href="#">${sessionScope.user.userName}的中心</a>
+                        <a class="layui-btn layui-btn-primary" href="/waimai/qiantaiuser/center.action">${sessionScope.user.userName}的中心</a>
                     </c:when>
                     <c:otherwise>
-                        <a class="layui-btn layui-btn-primary" href="/qiantaiuser/loginPage.action">登录</a>
+                        <a class="layui-btn layui-btn-primary" href="/waimai/qiantaiuser/loginPage.action">登录</a>
                     </c:otherwise>
                 </c:choose>
             </div>
             <div class="layui-col-md1">
-                <a class="layui-btn layui-btn-primary" href="/register/register.action">注 册</a>
+                <a class="layui-btn layui-btn-primary" href="/waimai/register/register.action">注 册</a>
             </div>
             <div class="layui-col-md1">
-                <a class="layui-btn layui-btn-primary" href="/qiantaiuser/lagout.action">登出</a>
+                <a class="layui-btn layui-btn-primary" href="/waimai/qiantaiuser/lagout.action">登出</a>
             </div>
         </div>
     </div>
@@ -52,24 +52,24 @@
     <div  style="width: 100%">
         <ul class="layui-nav layui-bg-green daohang" lay-filter="">
             <li class="layui-nav-item layui-col-md-offset2 layui-col-md1">
-                <a href="/qiantaiFood/index.action">外卖</a>
+                <a href="/waimai/qiantaiFood/index.action">外卖</a>
                 <dl class="layui-nav-child">
                     <c:forEach items="${foodTypes}" var="foodType">
-                        <dd><a href="/qiantaiNews/index.action?newsTypeId=${foodType.foodTypeId}">${foodType.foodTypeName}</a></dd>
+                        <dd><a href="/waimai/qiantaiNews/index.action?newsTypeId=${foodType.foodTypeId}">${foodType.foodTypeName}</a></dd>
                     </c:forEach>
                 </dl>
             </li>
             <li class="layui-nav-item layui-col-md-offset1 layui-col-md1">
-                <a href="/qiantaiNews/index.action" id="news" onmouseover="loadnewsType()">新闻</a>
+                <a href="/waimai/qiantaiNews/index.action" id="news" onmouseover="loadnewsType()">新闻</a>
                 <dl class="layui-nav-child">
                     <c:forEach items="${newsTypes}" var="newsType">
-                        <dd><a href="/qiantaiNews/index.action?newsTypeId=${newsType.newsTypeId}">${newsType.newsTypeName}</a></dd>
+                        <dd><a href="/waimai/qiantaiNews/index.action?newsTypeId=${newsType.newsTypeId}">${newsType.newsTypeName}</a></dd>
                     </c:forEach>
                 </dl>
             </li>
-            <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="/qiantaiFeedback/index.action">反馈</a></li>
+            <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="/waimai/qiantaiFeedback/index.action">反馈</a></li>
 
-            <li class="layui-nav-item layui-col-md-offset1 "><a href="/aboutus.action">关于我们</a></li>
+            <li class="layui-nav-item layui-col-md-offset1 "><a href="/waimai/aboutus.action">关于我们</a></li>
         </ul>
     </div>
     <br><br>
@@ -80,7 +80,7 @@
                 <form class="layui-form" >
                     <label class="layui-form-label">外卖图片</label>
                     <div class="layui-input-block">
-                        <img src="${food.foodPictureUrl}">
+                        <img src="/waimai${food.foodPictureUrl}">
                     </div>
                     <br>
                     <label class="layui-form-label">外卖描述</label>
@@ -95,7 +95,14 @@
                     <br>
 
                 </form>
+                <br><br><br>
+                <div class="layui-container" >
+                    <h1>卖家评论秀:</h1><br>
+                    <div class="layui-collapse" id="discuess" lay-accordion>
 
+                    </div>
+
+                </div>
             </div>
             <div class="layui-col-md4 layui-col-md-offset2" >
                 <form class="layui-form" id="form" action="" method="post">
@@ -170,7 +177,7 @@
         //监听提交
         form.on('submit(formDemo)', function(data){
             $.ajax({
-                url:"/qiantaiCaritem/add.action",
+                url:"/waimai/qiantaiCaritem/add.action",
                 data:JSON.stringify(data.field),
                 type:"post",
                 dataType:"json",
@@ -183,7 +190,7 @@
                             content:r.data,
                             btn:["确定"],
                             yes:function (index,layero) {
-                                window.location.href="/index.action"
+                                window.location.href="/waimai/index.action"
                             }
                         })
                     }else {
@@ -192,7 +199,7 @@
                             content:r.data,
                             btn:["确定"],
                             yes:function (index,layero) {
-                                window.location.href="/register/register.action"
+                                window.location.href="/waimai/register/register.action"
                             }
                         })
                     }
@@ -202,29 +209,36 @@
         });
     });
     function car() {
-        $.get("/qiantaiCaritem/car.action",function (r) {
+        $.get("/waimai/qiantaiCaritem/car.action",function (r) {
             var data=JSON.parse(r);
             if(data.code==1){
-                layer.open({
-                    title:"提示信息",
-                    content:data.data,
-                    btn:["确定"],
-                    yes:function (index,layero) {
-                        window.location.href="/qiantaiCaritem/carList.action";
-                    }
-                })
+                window.location.href="/waimai/qiantaiCaritem/carList.action";
             }else{
                 layer.open({
                     title:"提示信息",
                     content:data.data,
                     btn:["确定"],
                     yes:function (index,layero) {
-                        window.location.href="/qiantaiuser/loginPage.action";
+                        window.location.href="/waimai/qiantaiuser/loginPage.action";
                     }
                 })
             }
         })
     }
+    $(function () {
+        $.get("/waimai/qiantaiFood/listDiscuss.action",function (r) {
+            var data=JSON.parse(r);
+            if(data.code==1){
+                var discusses=$("#discuess");
+                for(var i=0;i<data.data.length;i++){
+                    var dis=data.data[i];
+                    var flag=" <div class='layui-colla-item'><h2 class='layui-colla-title'>"+dis.userName+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;购买日期:"+dis.discussCreateTime+"</h2><div class='layui-colla-content layui-show'>"+dis.discussMessage+"</div></div>"
+                    discusses.append(flag);
+                }
+            }
+
+        })
+    })
 </script>
 </body>
 </html>

@@ -123,4 +123,63 @@ public class QianTaiUserController {
         }
         return null;
     }
+
+    @RequestMapping(value = "center.action")
+    public ModelAndView center(){
+        ModelAndView modelAndView=new ModelAndView();
+        List<NewsType> newsTypes=new ArrayList<>();
+        newsTypes = newsTypeService.getAllNewsTypes();
+        modelAndView.addObject("newsTypes",newsTypes);
+        List<FoodType> foodTypes=new ArrayList<>();
+        foodTypes=foodTypeService.getAll();
+        modelAndView.addObject("foodTypes",foodTypes);
+        modelAndView.setViewName("qiantai/center");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "personal.action",produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String personal(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        BaseJson baseJson=null;
+        if (user!=null){
+            baseJson=new BaseJson(GlobalFianlVar.SUCCESS,user);
+            return JsonUtils.objectToJson(baseJson);
+        }else{
+            baseJson=new BaseJson(GlobalFianlVar.ERROR,"这个用户不存在，傻了吧");
+            return JsonUtils.objectToJson(baseJson);
+        }
+    }
+
+    @RequestMapping(value = "updatePage.action")
+    public ModelAndView updatePage(HttpServletRequest request){
+        ModelAndView modelAndView=new ModelAndView();
+        List<NewsType> newsTypes=new ArrayList<>();
+        newsTypes = newsTypeService.getAllNewsTypes();
+        modelAndView.addObject("newsTypes",newsTypes);
+        List<FoodType> foodTypes=new ArrayList<>();
+        foodTypes=foodTypeService.getAll();
+        modelAndView.addObject("foodTypes",foodTypes);
+        modelAndView.setViewName("qiantai/update");
+        User user= (User) request.getSession().getAttribute("user");
+        modelAndView.addObject("user",user);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "update.action",produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String update(@RequestBody User user,HttpServletRequest request){
+        BaseJson baseJson=null;
+        try {
+            userService.updateUser(user);
+           request.getSession().removeAttribute("user");
+            baseJson=new BaseJson(GlobalFianlVar.SUCCESS,null);
+            return JsonUtils.objectToJson(baseJson);
+        } catch (Exception e) {
+            baseJson=new BaseJson(GlobalFianlVar.ERROR,"更新失败，傻了吧");
+            e.printStackTrace();
+            return JsonUtils.objectToJson(baseJson);
+        }
+    }
+
 }

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.waimai.mapper.DiscussMapper" >
+    <sql id="all">
+        discuss_id,
+        discuss_create_time,
+        discuss_message,
+        food_id,
+        user_id
+    </sql>
+    <sql id="allEntity">
+        d.discuss_id,
+        d.discuss_create_time,
+        d.discuss_message,
+        d.user_id,
+        f.food_id,
+        f.food_price,
+        f.food_name,
+        f.food_sale_count,
+        f.food_create_time,
+        f.food_picture_url,
+        f.food_description,
+        f.food_type_id
+    </sql>
+    <resultMap id="discussEntity" type="com.bobo.waimai.pojo.Discuss">
+        <id column="discuss_id" property="discussId" javaType="java.lang.Integer"></id>
+        <result column="discuss_create_time" property="discussCreateTime" javaType="java.util.Date"></result>
+        <result column="discuss_message" property="discussMessage" javaType="java.lang.String"></result>
+        <result column="user_id" property="userId" javaType="java.lang.Integer"></result>
+        <association column="food_id" property="food" javaType="com.bobo.waimai.pojo.Food">
+            <id column="food_id" javaType="java.lang.Integer" property="foodId"></id>
+            <result column="food_price" javaType="java.lang.Integer" property="foodPrice"></result>
+            <result column="food_name" javaType="java.lang.String" property="foodName"></result>
+            <result column="food_sale_count" javaType="java.lang.Integer" property="foodSaleCount"></result>
+            <result column="food_create_time" javaType="java.util.Date" property="foodCreateTime"></result>
+            <result column="food_picture_url" javaType="java.lang.String" property="foodPictureUrl"></result>
+            <result column="food_description" javaType="java.lang.String" property="foodDescription"></result>
+            <result column="food_type_id" javaType="java.lang.Integer" property="foodTypeId"></result>
+        </association>
+    </resultMap>
+    <resultMap id="discuss" type="com.bobo.waimai.pojo.Discuss">
+        <id column="discuss_id" property="discussId" javaType="java.lang.Integer"></id>
+        <result column="discuss_create_time" property="discussCreateTime" javaType="java.util.Date"></result>
+        <result column="discuss_message" property="discussMessage" javaType="java.lang.String"></result>
+        <result column="food_id" property="foodId" javaType="java.lang.Integer"></result>
+        <result column="user_id" property="userId" javaType="java.lang.Integer"></result>
+    </resultMap>
+
+    <insert id="addDiscuss" parameterType="com.bobo.waimai.pojo.Discuss">
+        insert into discuss(discuss_create_time, discuss_message, food_id, user_id)
+        values (#{discussCreateTime},#{discussMessage},#{foodId},#{userId})
+    </insert>
+
+    <select id="countAll" resultType="java.lang.Long">
+        select count(1) from discuss where user_id=#{userId}
+    </select>
+
+    <select id="discusses" resultMap="discussEntity">
+        select <include refid="allEntity"/>
+        from discuss as d join food as f
+        on d.food_id=f.food_id
+        where d.user_id=#{userId} limit #{offset},#{limit}
+    </select>
+
+    <select id="getDiscussByFoodId" resultMap="discuss">
+        select <include refid="all"/> from discuss where food_id=#{foodId}
+    </select>
+
+</mapper>

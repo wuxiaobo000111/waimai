@@ -62,6 +62,9 @@
             <if test="userEmail!=null">
                 useremail=#{userEmail},
             </if>
+            <if test="userPassword!=null">
+                userpassword=#{userPassword}
+            </if>
         </set>
         where userid=#{userId}
     </update>

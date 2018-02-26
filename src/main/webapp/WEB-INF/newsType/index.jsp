@@ -19,7 +19,7 @@
 <div id="dtApp" v-cloak>
     <br><br>
     <div id="toolbar">
-            <a href="/newsType/add.action" class="btn btn-success " type="button">
+            <a href="/waimai/newsType/add.action" class="btn btn-success " type="button">
                 <i class="fa fa-plus"></i>&nbsp;&nbsp;<span class="bold">新增</span>
             </a>
     </div>

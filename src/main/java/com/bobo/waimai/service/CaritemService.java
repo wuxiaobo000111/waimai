@@ -45,4 +45,8 @@ public interface CaritemService {
    public Long countAll(Integer userId);
 
    public  List<CarItem> getItems(Integer limit, Integer offset, Integer userId);
+
+   public CarItem getCarItemByFoodId(Integer foodId);
+
+   public void updateIsAccount(Integer caritemId);
 }

@@ -53,7 +53,13 @@ public class CaritemServiceImpl implements CaritemService {
     @Override
     public void addCarItem(CarItem carItem) throws Exception {
         carItem.setCaritemCreateTime(new Date());
-        caritemMapper.addCarItem(carItem);
+        CarItem flag=caritemMapper.isExits(carItem.getFoodId());
+        if (flag.getIsAccount()==1){
+            caritemMapper.updateCarItem(carItem.getFoodId(),carItem.getCaritemNumber());
+        }else{
+            caritemMapper.addCarItem(carItem);
+        }
+
     }
 
     @Override
@@ -64,5 +70,15 @@ public class CaritemServiceImpl implements CaritemService {
     @Override
     public List<CarItem> getItems(Integer limit, Integer offset, Integer userId) {
         return caritemMapper.getItems(limit,offset,userId);
+    }
+
+    @Override
+    public CarItem getCarItemByFoodId(Integer foodId) {
+        return caritemMapper.getCarItemByFoodId(foodId);
+    }
+
+    @Override
+    public void updateIsAccount(Integer caritemId) {
+        caritemMapper.updateIsAccount(caritemId);
     }
 }

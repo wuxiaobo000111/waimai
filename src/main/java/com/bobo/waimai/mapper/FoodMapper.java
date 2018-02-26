@@ -60,4 +60,9 @@ public interface FoodMapper {
     public List<Food> getFoods(@Param(value = "limit") Integer limit,
                                @Param(value = "offset") Integer offset,
                                @Param(value = "foodTypeId") Integer foodTypeId);
+
+    public Food getFoodByFoodName(String foodName);
+
+    public void updateFoodCount(@Param(value = "foodSaleCount") Integer foodSaleCount,
+                                @Param(value = "foodId") Integer foodId);
 }

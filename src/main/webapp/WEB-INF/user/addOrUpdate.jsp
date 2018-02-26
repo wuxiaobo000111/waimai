@@ -94,10 +94,10 @@
         var $user=$("#form").serializeJSON();
         if(flag!=""){
             $("#button").text("更改");
-            ajaxRequest("/user/updateUser.action",$user);
+            ajaxRequest("/waimai/user/updateUser.action",$user);
         }else {
             $("#button").text("新增");
-            ajaxRequest("/user/addUser.action",$user);
+            ajaxRequest("/waimai/user/addUser.action",$user);
         }
     }
 
@@ -117,7 +117,7 @@
                         content:"修改成功",
                         btn:["确定"],
                         yes:function (index,layero) {
-                            window.location.href="/user/index.action"
+                            window.location.href="/waimai/user/index.action"
                         }
                     })
                 }else {

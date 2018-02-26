@@ -7,7 +7,8 @@
         caritem_number,
         user_id,
         food_id,
-        caritem_brought
+        caritem_brought,
+        is_account
     </sql>
     <resultMap id="caritem" type="com.bobo.waimai.pojo.CarItem">
         <id property="caritemId" column="caritem_id" javaType="java.lang.Integer"></id>
@@ -16,6 +17,7 @@
         <result column="user_id" property="userId" javaType="java.lang.Integer" ></result>
         <result column="food_id" property="foodId" javaType="java.lang.Integer" ></result>
         <result column="caritem_brought" property="caritemBrought" javaType="java.lang.Integer" ></result>
+        <result column="is_account" property="isAccount" javaType="java.lang.Integer"></result>
     </resultMap>
 
     <insert id="addCarItem" parameterType="com.bobo.waimai.pojo.CarItem">
@@ -28,6 +30,22 @@
     </select>
 
     <select id="getItems" resultMap="caritem">
-        select <include refid="all"/> from caritem where user_id=#{userId} limit #{offset},#{limit}
+        select <include refid="all"/> from caritem where user_id=#{userId} and is_account=1 limit #{offset},#{limit}
     </select>
+
+    <select id="getCarItemByFoodId" resultMap="caritem">
+        select <include refid="all"/> from caritem where food_id=#{foodId}
+    </select>
+
+    <update id="updateIsAccount" parameterType="java.lang.Integer">
+        update caritem set is_account=2 where caritem_id=#{caritemId}
+    </update>
+
+    <select id="isExits" resultMap="caritem">
+        select <include refid="all"/> from caritem where food_id=#{foodId}
+    </select>
+
+    <update id="updateCarItem" >
+        update caritem set caritem_number=caritem_number+#{caritemNumber} where food_id=#{foodId}
+    </update>
 </mapper>

@@ -61,7 +61,7 @@
     function login() {
         var manager=$("#form").serializeJSON();
       $.ajax({
-          url:"/admin/login.action",
+          url:"/waimai/admin/login.action",
           data:JSON.stringify(manager),
           type:"post",
           dataType:"json",
@@ -70,7 +70,7 @@
 //              var data=JSON.parse(r);
                if (r.code==1){
 //                   这里表示在数据库中验证成功；
-                   window.location.href="/index/index.action";
+                   window.location.href="/waimai/index/index.action";
                }else {
                    alert("登录失败"+r.code)
                }

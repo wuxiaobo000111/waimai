@@ -21,7 +21,7 @@ var vm = new Vue({
                 },
                 {title:'新闻类型名称',field:'newsTypeName'},
                 { title:'编辑', field:'newsTypeId', formatter: function(value,row,index){
-                    var edit = '<a href="/newsType/edit.action?newsTypeId=' + value + '" class="btn btn-success btn-xs">编辑</a>';
+                    var edit = '<a href="/waimai/newsType/edit.action?newsTypeId=' + value + '" class="btn btn-success btn-xs">编辑</a>';
                     return edit;
                 }
                 }
@@ -29,12 +29,12 @@ var vm = new Vue({
             var option = T.btTableOption;
             var allColumns = columns;//合并列
             option.columns = allColumns;
-            option.url = '/newsType/list.action';
+            option.url = '/waimai/newsType/list.action';
 
             $('#table').bootstrapTable(option);
         },
         deleteBatch: function(){
-            T.doTask("newsTypeId","/newsType/deleteMore.action");
+            T.doTask("newsTypeId","/waimai/newsType/deleteMore.action");
         }
     }
 });

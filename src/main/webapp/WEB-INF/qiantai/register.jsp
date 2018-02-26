@@ -32,19 +32,19 @@
             </div>
             <div class="layui-col-md1 ">
                 <c:choose>
-                    <c:when test="${!empty sessionScope.user}">
-                        <a class="layui-btn layui-btn-primary" href="#">${sessionScope.user.userName}的中心</a>
+                    <c:when test="${! empty sessionScope.user}">
+                        <a class="layui-btn layui-btn-primary" href="/waimai/qiantaiuser/center.action">${sessionScope.user.userName}的中心</a>
                     </c:when>
                     <c:otherwise>
-                        <a class="layui-btn layui-btn-primary" href="/qiantaiuser/loginPage.action">登录</a>
+                        <a class="layui-btn layui-btn-primary" href="/waimai/qiantaiuser/loginPage.action">登录</a>
                     </c:otherwise>
                 </c:choose>
             </div>
             <div class="layui-col-md1">
-                <a class="layui-btn layui-btn-primary" href="/register/register.action">注 册</a>
+                <a class="layui-btn layui-btn-primary" href="/waimai/register/register.action">注 册</a>
             </div>
             <div class="layui-col-md1">
-                <a class="layui-btn layui-btn-primary" href="/qiantaiuser/lagout.action">登出</a>
+                <a class="layui-btn layui-btn-primary" href="/waimai/qiantaiuser/lagout.action">登出</a>
             </div>
         </div>
     </div>
@@ -52,29 +52,29 @@
     <div  style="width: 100%">
         <ul class="layui-nav layui-bg-green daohang" lay-filter="">
             <li class="layui-nav-item layui-col-md-offset2 layui-col-md1">
-                <a href="/qiantaiFood/index.action">外卖</a>
+                <a href="/waimai/qiantaiFood/index.action">外卖</a>
                 <dl class="layui-nav-child">
                     <c:forEach items="${foodTypes}" var="foodType">
-                        <dd><a href="/qiantaiNews/index.action?newsTypeId=${foodType.foodTypeId}">${foodType.foodTypeName}</a></dd>
+                        <dd><a href="/waimai/qiantaiNews/index.action?newsTypeId=${foodType.foodTypeId}">${foodType.foodTypeName}</a></dd>
                     </c:forEach>
                 </dl>
             </li>
             <li class="layui-nav-item layui-col-md-offset1 layui-col-md1">
-                <a href="/qiantaiNews/index.action" id="news" onmouseover="loadnewsType()">新闻</a>
+                <a href="/waimai/qiantaiNews/index.action" id="news" onmouseover="loadnewsType()">新闻</a>
                 <dl class="layui-nav-child">
                     <c:forEach items="${newsTypes}" var="newsType">
-                        <dd><a href="/qiantaiNews/index.action?newsTypeId=${newsType.newsTypeId}">${newsType.newsTypeName}</a></dd>
+                        <dd><a href="/waimai/qiantaiNews/index.action?newsTypeId=${newsType.newsTypeId}">${newsType.newsTypeName}</a></dd>
                     </c:forEach>
                 </dl>
             </li>
-            <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="/qiantaiFeedback/index.action">反馈</a></li>
+            <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="/waimai/qiantaiFeedback/index.action">反馈</a></li>
 
-            <li class="layui-nav-item layui-col-md-offset1 "><a href="/aboutus.action">关于我们</a></li>
+            <li class="layui-nav-item layui-col-md-offset1 "><a href="/waimai/aboutus.action">关于我们</a></li>
         </ul>
     </div>
     <br><br>
     <div class="layui-container" >
-        <form class="layui-form" id="form" action="/register/addUser.action" method="post">
+        <form class="layui-form" id="form" action="/waimai/register/addUser.action" method="post">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-block">
                 <input type="text" name="userName" id="userName" autocomplete="off" placeholder="请输入用户名" class="layui-input"
@@ -155,9 +155,8 @@
         });
         //监听提交
         form.on('submit(formDemo)', function(data){
-            layer.msg(JSON.stringify(data.field));
             $.ajax({
-                url:"/register/addUser.action",
+                url:"/waimai/register/addUser.action",
                 data:JSON.stringify(data.field),
                 type:"post",
                 dataType:"json",
@@ -170,7 +169,7 @@
                             content:"注册成功",
                             btn:["确定"],
                             yes:function (index,layero) {
-                                window.location.href="/index.action"
+                                window.location.href="/waimai/index.action"
                             }
                         })
                     }else {
@@ -188,7 +187,7 @@
 
     function validateUserName() {
         var username=$("#userName").val();
-        $.get("/qiantaiuser/validateUserName.action?username="+username,function (r) {
+        $.get("/waimai/qiantaiuser/validateUserName.action?username="+username,function (r) {
             var data=JSON.parse(r);
             if(data.code==0){
                 var message=$("#message");
@@ -198,24 +197,17 @@
     }
 
     function car() {
-        $.get("/qiantaiCaritem/car.action",function (r) {
+        $.get("/waimai/qiantaiCaritem/car.action",function (r) {
             var data=JSON.parse(r);
             if(data.code==1){
-                layer.open({
-                    title:"提示信息",
-                    content:data.data,
-                    btn:["确定"],
-                    yes:function (index,layero) {
-                        window.location.href="/qiantaiCaritem/carList.action";
-                    }
-                })
+                window.location.href="/waimai/qiantaiCaritem/carList.action";
             }else{
                 layer.open({
                     title:"提示信息",
                     content:data.data,
                     btn:["确定"],
                     yes:function (index,layero) {
-                        window.location.href="/qiantaiuser/loginPage.action";
+                        window.location.href="/waimai/qiantaiuser/loginPage.action";
                     }
                 })
             }

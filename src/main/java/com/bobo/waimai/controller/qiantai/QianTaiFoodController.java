@@ -33,11 +33,14 @@ package com.bobo.waimai.controller.qiantai;
 //  
 
 
+import com.bobo.waimai.commons.BaseJson;
 import com.bobo.waimai.commons.DataGridResult;
+import com.bobo.waimai.commons.GlobalFianlVar;
 import com.bobo.waimai.commons.utils.JsonUtils;
 import com.bobo.waimai.pojo.Food;
 import com.bobo.waimai.pojo.FoodType;
 import com.bobo.waimai.pojo.NewsType;
+import com.bobo.waimai.pojo.extend.FoodDiscuss;
 import com.bobo.waimai.service.FoodService;
 import com.bobo.waimai.service.FoodTypeService;
 import com.bobo.waimai.service.NewsTypeService;
@@ -48,7 +51,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,10 +95,34 @@ public class QianTaiFoodController {
     }
 
     @RequestMapping(value = "detailsPage.action")
-    public ModelAndView detailsPage(HttpServletRequest request,Integer foodId){
+    public ModelAndView detailsPage(HttpServletRequest request, HttpServletResponse response,Integer foodId){
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.setViewName("qiantai/newsDetails");
         modelAndView.addObject("foodId",foodId);
+        List<NewsType> newsTypes=new ArrayList<>();
+        newsTypes = newsTypeService.getAllNewsTypes();
+        modelAndView.addObject("newsTypes",newsTypes);
+        List<FoodType> foodTypes=new ArrayList<>();
+        foodTypes=foodTypeService.getAll();
+        modelAndView.addObject("foodTypes",foodTypes);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/listDiscuss.action",produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String listDiscuss(HttpServletRequest request){
+        BaseJson baseJson=null;
+        Cookie[] cookies = request.getCookies();
+        Integer foodId=null;
+        for (int i=0;i<cookies.length;i++){
+            if (cookies[i].getName().equals("foodId")){
+                foodId=Integer.parseInt(cookies[i].getValue());
+                break;
+            }
+        }
+        List<FoodDiscuss> foodDiscusses=new ArrayList<>();
+        foodDiscusses=foodService.getDisucssByFoodId(foodId);
+        baseJson=new BaseJson(GlobalFianlVar.SUCCESS,foodDiscusses);
+        return JsonUtils.objectToJson(baseJson);
     }
 }

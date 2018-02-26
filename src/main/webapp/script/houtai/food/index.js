@@ -26,12 +26,12 @@ var vm = new Vue({
                 { title: '卖出数量', field: 'foodSaleCount'},
                 { title: '创建时间', field: 'foodCreateTime'},
                 { title: '美图', field: 'foodPictureUrl',formatter:function (value,row,index) {
-                    var pic='<img src="'+value+'" style="width: 100px" height="60px">'
+                    var pic='<img src="/waimai'+value+'" style="width: 100px" height="60px">'
                     return pic
                 }},
                 { title: '描述', field: 'foodDescription'},
                 { title:'编辑', field:'foodId', formatter: function(value,row,index){
-                    var edit = '<a href="/food/edit.action?foodId=' + value + '" class="btn btn-success btn-xs">编辑</a>';
+                    var edit = '<a href="/waimai/food/edit.action?foodId=' + value + '" class="btn btn-success btn-xs">编辑</a>';
                     return edit;
                 }
                 },
@@ -45,7 +45,7 @@ var vm = new Vue({
             var option = T.btTableOption;
             var allColumns = columns;//合并列
             option.columns = allColumns;
-            option.url = '/food/list.action';
+            option.url = '/waimai/food/list.action';
 
             $('#table').bootstrapTable(option);
         },
@@ -55,14 +55,14 @@ var vm = new Vue({
                 content:"你确定要删除？",
                 btn:["确定"],
                 yes:function (index,layero) {
-                    $.get("/food/deleteFood.action?foodId="+foodId,function (r) {
+                    $.get("/waimai/food/deleteFood.action?foodId="+foodId,function (r) {
                         if (r.code==1){
                             layer.open({
                                 title:"提示信息",
                                 content:"删除成功",
                                 btn:["确定"],
                                 yes:function (index,layero) {
-                                    window.location.href="/food/index.action";
+                                    window.location.href="/waimai/food/index.action";
                                 }
                             })
                         }
@@ -74,7 +74,7 @@ var vm = new Vue({
             })
         },
         deleteBatch: function(){
-            T.doTask("foodId","/food/deleteMore.action");
+            T.doTask("foodId","/waimai/food/deleteMore.action");
         }
     }
 });

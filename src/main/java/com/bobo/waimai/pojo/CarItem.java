@@ -47,6 +47,27 @@ public class CarItem implements Serializable {
     private Integer userId;
     private Integer foodId;
     private Integer caritemBrought;
+    private Integer isAccount;
+
+    public void setIsAccount(Integer isAccount) {
+        this.isAccount = isAccount;
+    }
+
+    public Integer getIsAccount() {
+        return isAccount;
+    }
+
+    public CarItem(Integer caritemId, Date caritemCreateTime, Integer caritemNumber,
+                   Integer userId, Integer foodId, Integer caritemBrought,
+                   Integer isAccount) {
+        this.caritemId = caritemId;
+        this.caritemCreateTime = caritemCreateTime;
+        this.caritemNumber = caritemNumber;
+        this.userId = userId;
+        this.foodId = foodId;
+        this.caritemBrought = caritemBrought;
+        this.isAccount = isAccount;
+    }
 
     public CarItem(Integer caritemId, Date caritemCreateTime, Integer caritemNumber,
                    Integer userId, Integer foodId, Integer caritemBrought) {
@@ -57,6 +78,8 @@ public class CarItem implements Serializable {
         this.foodId = foodId;
         this.caritemBrought = caritemBrought;
     }
+
+
 
     public CarItem() {
     }
@@ -120,6 +143,7 @@ public class CarItem implements Serializable {
                 ", userId=" + userId +
                 ", foodId=" + foodId +
                 ", caritemBrought=" + caritemBrought +
+                ", isAccount=" + isAccount +
                 '}';
     }
 }

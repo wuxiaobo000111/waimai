@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.waimai.mapper.OrderMapper" >
+    <sql id="all">
+       order_id,
+        user_id,
+        food_id,
+        order_create_time,
+        order_money,
+        address_id
+    </sql>
+    <resultMap id="order" type="com.bobo.waimai.pojo.Order">
+        <id column="order_id" property="orderId" javaType="java.lang.Integer"></id>
+        <result column="user_id" property="userId" javaType="java.lang.Integer"></result>
+        <result column="food_id" property="foodId" javaType="java.lang.Integer"></result>
+        <result column="order_create_time" property="orderCreateTime" javaType="java.util.Date"></result>
+        <result column="order_money" property="orderMoney" javaType="java.lang.Integer"></result>
+        <result column="address_id" property="addressId" javaType="java.lang.Integer"></result>
+    </resultMap>
+
+    <insert id="addOrder" parameterType="com.bobo.waimai.pojo.Order">
+        insert into `order`(user_id, food_id, order_create_time, order_money, address_id)
+        values(#{userId},#{foodId},#{orderCreateTime},#{orderMoney},#{addressId})
+    </insert>
+
+    <select id="countAll" resultType="java.lang.Long">
+        select count(1) from `order` where user_id=#{userId}
+    </select>
+    <select id="getOrders" resultMap="order">
+        select <include refid="all"/> from `order` where user_id=#{userId} limit #{offset},#{limit}
+    </select>
+
+    <select id="getOrderByUserId" resultMap="order">
+        select <include refid="all"/> from `order` where user_id=#{userId} limit 0,1
+    </select>
+    <select id="getOrder" resultMap="order">
+        select <include refid="all"/> from `order` where user_id=#{userId}
+    </select>
+
+    <delete id="deleteOrder" parameterType="java.lang.Integer">
+        delete from `order` where user_id=#{userId}
+    </delete>
+
+    <select id="getOrdersByUserId" resultMap="order">
+        select <include refid="all"/> from `order`
+        where user_id=#{userId}
+    </select>
+</mapper>

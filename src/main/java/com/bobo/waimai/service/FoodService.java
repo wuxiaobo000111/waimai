@@ -33,6 +33,7 @@ package com.bobo.waimai.service;
 
 
 import com.bobo.waimai.pojo.Food;
+import com.bobo.waimai.pojo.extend.FoodDiscuss;
 
 import java.util.List;
 
@@ -56,4 +57,10 @@ public interface FoodService {
 
 
     public List<Food> getFoods(Integer limit, Integer offset, Integer foodTypeId);
+
+    public Food getFoodByFoodName(String foodName);
+
+    public void updateFoodCount(Integer foodSaleCount,Integer foodId);
+
+    public List<FoodDiscuss> getDisucssByFoodId(Integer foodId);
 }

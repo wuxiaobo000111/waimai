@@ -78,9 +78,9 @@
         var flag=$("#foodTypeId").val();
         var $foodType=$("#form").serializeJSON();
         if(flag!=""){
-            ajaxRequest("/foodType/updateFoodType.action",$foodType);
+            ajaxRequest("/waimai/foodType/updateFoodType.action",$foodType);
         }else {
-            ajaxRequest("/foodType/addFoodType.action",$foodType);
+            ajaxRequest("/waimai/foodType/addFoodType.action",$foodType);
         }
     }
     function ajaxRequest(url,food) {
@@ -99,7 +99,7 @@
                         content:"修改成功",
                         btn:["确定"],
                         yes:function (index,layero) {
-                            window.location.href="/foodType/index.action"
+                            window.location.href="/waimai/foodType/index.action"
                         }
                     })
                 }else {

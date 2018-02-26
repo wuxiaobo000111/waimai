@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.waimai.mapper.ConsumeMapper" >
+
+    <sql id="all">
+        consume_id,
+        consume_create_time,
+        user_id,
+        consume_money,
+        consume_food,
+        is_discuss
+    </sql>
+    <resultMap id="consume" type="com.bobo.waimai.pojo.Consume">
+        <id column="consume_id" property="consumeId" javaType="java.lang.Integer"></id>
+        <result column="consume_create_time" property="consumeCreateTime" javaType="java.util.Date"></result>
+        <result column="user_id" property="userId" javaType="java.lang.Integer"></result>
+        <result column="consume_money" property="consumeMoney" javaType="java.lang.Integer"></result>
+        <result column="consume_food" property="consumeFood" javaType="java.lang.String"></result>
+        <result column="is_discuss" property="isDiscuss" javaType="java.lang.Integer"></result>
+    </resultMap>
+
+    <insert id="addConsume" parameterType="com.bobo.waimai.pojo.Consume">
+        insert into consume (consume_create_time, user_id, consume_money, consume_food)
+        values(#{consumeCreateTime},#{userId},#{consumeMoney},#{consumeFood})
+    </insert>
+
+    <select id="countAll" resultType="java.lang.Long">
+        select count(1) from consume where user_id=#{userId}
+    </select>
+
+    <select id="getAddresses" resultMap="consume">
+        select <include refid="all"/> from consume where user_id=#{userId} limit #{offset}, #{limit}
+    </select>
+
+    <select id="getConsumeById" resultMap="consume">
+        select <include refid="all"/> from consume where consume_id=#{consumeId}
+    </select>
+
+    <update id="updateConsume" parameterType="java.lang.Integer">
+        update consume set is_discuss=2 where consume_id=#{consumeId}
+    </update>
+</mapper>

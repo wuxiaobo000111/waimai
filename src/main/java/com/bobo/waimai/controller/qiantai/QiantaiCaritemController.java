@@ -50,7 +50,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -83,7 +85,7 @@ public class QiantaiCaritemController {
     }
 
     @RequestMapping(value = "details.action")
-    public ModelAndView details(HttpServletRequest request, Integer foodId){
+    public ModelAndView details(HttpServletRequest request, HttpServletResponse response,Integer foodId){
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.setViewName("qiantai/foodDetails");
         List<NewsType> newsTypes=new ArrayList<>();
@@ -93,6 +95,9 @@ public class QiantaiCaritemController {
         foodTypes=foodTypeService.getAll();
         modelAndView.addObject("foodTypes",foodTypes);
         Food food = foodService.getFoodById(foodId);
+        Cookie cookie=new Cookie("foodId",String.valueOf(foodId));
+        cookie.setPath("/");
+        response.addCookie(cookie);
         modelAndView.addObject("food",food);
         return modelAndView;
     }
@@ -131,6 +136,12 @@ public class QiantaiCaritemController {
     public ModelAndView carlist(){
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.setViewName("qiantai/car");
+        List<NewsType> newsTypes=new ArrayList<>();
+        newsTypes = newsTypeService.getAllNewsTypes();
+        modelAndView.addObject("newsTypes",newsTypes);
+        List<FoodType> foodTypes=new ArrayList<>();
+        foodTypes=foodTypeService.getAll();
+        modelAndView.addObject("foodTypes",foodTypes);
         return modelAndView;
     }
 

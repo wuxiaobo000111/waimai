@@ -21,7 +21,7 @@ var vm = new Vue({
                 { title: '广告名', field: 'advertName'},
                 { title: '广告创建时间', field: 'advertCreateTime'},
                 { title: '广告图片', field: 'advertPictureUrl',formatter:function (value,row,index) {
-                    var pic='<img src="'+value+'" style="width: 100px" height="60px">'
+                    var pic='<img src="/waimai'+value+'" style="width: 100px" height="60px">'
                     return pic
                 }},
                 { title: '广告描述', field: 'advertDescription'},
@@ -34,7 +34,7 @@ var vm = new Vue({
                 }},
                 { title: '关联外卖', field: 'food.foodName'},
                 { title:'编辑', field:'advertId', formatter: function(value,row,index){
-                    var edit = '<a href="/advert/edit.action?advertId=' + value + '" class="btn btn-success btn-xs">编辑</a>';
+                    var edit = '<a href="/waimai/advert/edit.action?advertId=' + value + '" class="btn btn-success btn-xs">编辑</a>';
                     return edit;
                 }
                 },
@@ -52,7 +52,7 @@ var vm = new Vue({
             var option = T.btTableOption;
             var allColumns = columns;//合并列
             option.columns = allColumns;
-            option.url = '/advert/list.action';
+            option.url = '/waimai/advert/list.action';
 
             $('#table').bootstrapTable(option);
         },
@@ -62,14 +62,14 @@ var vm = new Vue({
                 content:"你确定要删除？",
                 btn:["确定"],
                 yes:function (index,layero) {
-                    $.get("/advert/deleteAdvert.action?advertId="+advertId,function (r) {
+                    $.get("/waimai/advert/deleteAdvert.action?advertId="+advertId,function (r) {
                         if (r.code==1){
                             layer.open({
                                 title:"提示信息",
                                 content:"删除成功",
                                 btn:["确定"],
                                 yes:function (index,layero) {
-                                    window.location.href="/advert/index.action";
+                                    window.location.href="/waimai/advert/index.action";
                                 }
                             })
                         }
@@ -81,7 +81,7 @@ var vm = new Vue({
             })
         },
         deleteBatch: function(){
-            T.doTask("advertId","/advert/deleteMore.action");
+            T.doTask("advertId","/waimai/advert/deleteMore.action");
         }
     }
 });

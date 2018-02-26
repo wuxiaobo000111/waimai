@@ -19,7 +19,7 @@
 <div id="dtApp" v-cloak>
     <br><br>
     <div class="col-md-12">
-        <form  name="saveNews" class="form-horizontal" id="form" method="post" action="/news/saveNews.action" enctype="multipart/form-data" >
+        <form  name="saveNews" class="form-horizontal" id="form" method="post" action="/waimai/news/saveNews.action" enctype="multipart/form-data" >
             <br><br>
 
             <div class="form-group">
@@ -119,7 +119,7 @@
     function getNews() {
         var newsId=$("#newsId");
         if (newsId!=null){
-            $.get("/news/getNews.action?newsId="+newsId,function (r) {
+            $.get("/waimai/news/getNews.action?newsId="+newsId,function (r) {
                 if(r.code==1){
                     news=r.data;
                 }
@@ -165,7 +165,7 @@
                         content:"修改成功",
                         btn:["确定"],
                         yes:function (index,layero) {
-                            window.location.href="/food/index.action"
+                            window.location.href="/waimai/food/index.action"
                         }
                     })
                 }else {

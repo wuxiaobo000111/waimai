@@ -72,7 +72,7 @@
     <script type="text/javascript">
         function updatePass() {
             var newPassword=$("#password").val();
-            $.get("/admin/updatePassword.action?newPassword="+newPassword,function (r) {
+            $.get("/waimai/admin/updatePassword.action?newPassword="+newPassword,function (r) {
                 var data=JSON.parse(r);
                 if (data.code==1){
                     layer.open({
@@ -80,7 +80,7 @@
                         content:"修改成功，请重新登录",
                         btn:["确定"],
                         yes:function (index,layero) {
-                            window.location.href="/index.html"
+                            window.location.href="/waimai/index.html"
                         }
                     })
                 }
@@ -90,7 +90,7 @@
                         content:data.data,
                         btn:["确定"],
                         yes:function (index,layero) {
-                            window.location.href="/admin/updatePasswordPage.action"
+                            window.location.href="/waimai/admin/updatePasswordPage.action"
                         }
                     })
                 }

@@ -38,18 +38,18 @@
             <div class="layui-col-md1 ">
                 <c:choose>
                     <c:when test="${! empty sessionScope.user}">
-                        <a class="layui-btn layui-btn-primary" href="#">${sessionScope.user.userName}的中心</a>
+                        <a class="layui-btn layui-btn-primary" href="/waimai/qiantaiuser/center.action">${sessionScope.user.userName}的中心</a>
                     </c:when>
                     <c:otherwise>
-                        <a class="layui-btn layui-btn-primary" href="/qiantaiuser/loginPage.action">登录</a>
+                        <a class="layui-btn layui-btn-primary" href="/waimai/qiantaiuser/loginPage.action">登录</a>
                     </c:otherwise>
                 </c:choose>
             </div>
             <div class="layui-col-md1">
-                <a class="layui-btn layui-btn-primary" href="/register/register.action">注 册</a>
+                <a class="layui-btn layui-btn-primary" href="/waimai/register/register.action">注 册</a>
             </div>
             <div class="layui-col-md1">
-                <a class="layui-btn layui-btn-primary" href="/qiantaiuser/lagout.action">登出</a>
+                <a class="layui-btn layui-btn-primary" href="/waimai/qiantaiuser/lagout.action">登出</a>
             </div>
         </div>
     </div>
@@ -57,40 +57,42 @@
     <div  style="width: 100%">
         <ul class="layui-nav layui-bg-green daohang" lay-filter="">
             <li class="layui-nav-item layui-col-md-offset2 layui-col-md1">
-                <a href="/qiantaiFood/index.action">外卖</a>
+                <a href="/waimai/qiantaiFood/index.action">外卖</a>
                 <dl class="layui-nav-child">
                     <c:forEach items="${foodTypes}" var="foodType">
-                        <dd><a href="/qiantaiNews/index.action?newsTypeId=${foodType.foodTypeId}">${foodType.foodTypeName}</a></dd>
+                        <dd><a href="/waimai/qiantaiNews/index.action?newsTypeId=${foodType.foodTypeId}">${foodType.foodTypeName}</a></dd>
                     </c:forEach>
                 </dl>
             </li>
             <li class="layui-nav-item layui-col-md-offset1 layui-col-md1">
-                <a href="/qiantaiNews/index.action" id="news" onmouseover="loadnewsType()">新闻</a>
+                <a href="/waimai/qiantaiNews/index.action" id="news" onmouseover="loadnewsType()">新闻</a>
                 <dl class="layui-nav-child">
                     <c:forEach items="${newsTypes}" var="newsType">
-                        <dd><a href="/qiantaiNews/index.action?newsTypeId=${newsType.newsTypeId}">${newsType.newsTypeName}</a></dd>
+                        <dd><a href="/waimai/qiantaiNews/index.action?newsTypeId=${newsType.newsTypeId}">${newsType.newsTypeName}</a></dd>
                     </c:forEach>
                 </dl>
             </li>
-            <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="/qiantaiFeedback/index.action">反馈</a></li>
+            <li class="layui-nav-item layui-col-md-offset2 layui-col-md1"><a href="/waimai/qiantaiFeedback/index.action">反馈</a></li>
 
-            <li class="layui-nav-item layui-col-md-offset1 "><a href="/aboutus.action">关于我们</a></li>
+            <li class="layui-nav-item layui-col-md-offset1 "><a href="/waimai/aboutus.action">关于我们</a></li>
         </ul>
     </div>
     <br><br>
-    <div class="layui-container" style="width: 100%;height:auto;" >
-        <div class="layui-col-md11" >
-
-        </div>
-            <div class="layui-col-md10" id="newsList">
+    <div class="layui-container"  style="width: 100%;height:auto;">
+        <div class="layui-row" >
+            <div class="layui-col-md8" >
                 <table id="table"></table>
             </div>
+            <div class="layui-col-md4" >
+                <div class="layui-container" id="address">
+                    <div>地址</div>
+                </div>
+                <button class="layui-btn layui-btn-lg layui-btn-radius layui-btn-normal" onclick="account()">结算</button>
+            </div>
         </div>
-        <div class="layui-col-md10" >
 
-        </div>
     </div>
-
+</div>
     <br><br>
     <div id="footer" style="width: 100%;height: 40px">
         <div class="layui-col-md4" style="height: 300px">
@@ -143,7 +145,7 @@
         //监听提交
         form.on('submit(formDemo)', function(data){
             $.ajax({
-                url:"/qiantaiuser/login.action",
+                url:"/waimai/qiantaiuser/login.action",
                 data:JSON.stringify(data.field),
                 type:"post",
                 dataType:"json",
@@ -156,7 +158,7 @@
                             content:"登录成功",
                             btn:["确定"],
                             yes:function (index,layero) {
-                                window.location.href="/index.action"
+                                window.location.href="/waimai/index.action"
                             }
                         })
                     }else {
@@ -165,7 +167,7 @@
                             content:r.data,
                             btn:["确定"],
                             yes:function (index,layero) {
-                                window.location.href="/register/register.action"
+                                window.location.href="/waimai/register/register.action"
                             }
                         })
                     }
@@ -176,48 +178,62 @@
     });
     function getNewsList() {
         $('#table').bootstrapTable({
-            url:"/qiantaiCaritem/list.action",
+            url:"/waimai/qiantaiCaritem/list.action",
             pageSize:4,
             classes:"table table-hover",
-            cache:false,
             pagination: true,	//显示分页条
             sidePagination: 'server',//服务器端分页
+            pageList:[2,4,5,10],
             strictSearch: true,
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: true,               //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+
+            detailView: false,                  //是否显示父子表
             toolbar: '#toolbar',
+            striped: true,     //设置为true会有隔行变色效果
             columns:[
-                { title: '', field: 'foodName'},
-                { title: '', field: 'newsCreateTime'},
-                { title: '', field: 'newsAuthorName'},
-                { title: '', field: 'newsId',formatter:function (value,row,index) {
-                    var link='<a href="/qiantaiNews/detailsPage.action?newsId=' + value +'" class="btn btn-primary">新闻链接</a>';
-                    return link;
-                }}
+                {checkbox:true},
+                {
+                    field: 'foodId',
+                    title: '序号',
+                    width: 40,
+                    formatter: function (value, row, index) {
+                        var pageSize = $('#table').bootstrapTable('getOptions').pageSize;
+                        var pageNumber = $('#table').bootstrapTable('getOptions').pageNumber;
+                        return pageSize * (pageNumber - 1) + index + 1;
+                    }
+                },
+                { title: '食物价格', field: 'foodPrice',formatter:function (value,row,index) {
+                    return value+"元";
+                }},
+                { title: '食物名称', field: 'foodName'},
+                { title: '买的数量', field: 'caritemNumber',formatter:function (value,row,index) {
+                    return value+"份";
+                }},
+                { title: '创建时间', field: 'foodCreateTime'},
+                { title: '美图', field: 'foodPictureUrl',formatter:function (value,row,index) {
+                    var pic='<img src="/waimai'+value+'" style="width: 100px" height="60px">'
+                    return pic
+                }},
+                { title: '描述', field: 'foodDescription'}
             ]
         });
 
     }
     function car() {
-        $.get("/qiantaiCaritem/car.action",function (r) {
+        $.get("/waimai/qiantaiCaritem/car.action",function (r) {
             var data=JSON.parse(r);
             if(data.code==1){
-                layer.open({
-                    title:"提示信息",
-                    content:data.data,
-                    btn:["确定"],
-                    yes:function (index,layero) {
-                        window.location.href="/qiantaiCaritem/carList.action";
-                    }
-                })
+
+                window.location.href="/waimai/qiantaiCaritem/carList.action";
             }else{
                 layer.open({
                     title:"提示信息",
                     content:data.data,
                     btn:["确定"],
                     yes:function (index,layero) {
-                        window.location.href="/qiantaiuser/loginPage.action";
+                        window.location.href="/waimai/qiantaiuser/loginPage.action";
                     }
                 })
             }
@@ -229,7 +245,66 @@
     $(function () {
         var newsTypeId=$("#newsTypeId").val();
         getNewsList(newsTypeId);
+
+        $.get("/waimai/qiantaiAddress/list.action",function (r) {
+            var data=JSON.parse(r);
+            if(data.code==1){
+                var address=$("#address");
+                var addresses=data.data;
+                for(var i=0;i<addresses.length;i++){
+                    var ele="<div class='radio'><label><input type='radio' name='addressId' value="+addresses[i].addressId+">"+addresses[i].addressName+"&nbsp;"+addresses[i].addressLianxi+"&nbsp;"+addresses[i].addressPhone+"</label></div>"
+                    address.append(ele);
+                }
+            }else{
+                layer.open({
+                    title:"提示信息",
+                    content:data.data,
+                    btn:["确定"],
+                    yes:function (index,layero) {
+                        window.location.href="/waimai/qiantaiAddress/index.action";
+                    }
+                })
+            }
+        })
     })
+
+    function account() {
+        //返回所有选择的行，当没有选择的记录时，返回一个空数组
+        var rows = $('#table').bootstrapTable('getSelections');
+        if (rows.length == 0) {
+            layer.alert('请选择要操作的记录');
+            return;
+        }
+        //提示确认框
+        layer.confirm('您确定要操作所选记录吗？', {
+            btn: ['确定', '取消'] //可以无限个按钮
+        }, function(index, layero){
+            var ids = new Array();
+            //遍历所有选择的行数据，取每条数据对应的ID
+            $.each(rows, function(i, row) {
+                ids[i] = row["foodId"];
+            });
+            var addressId = $("input[name='addressId']:checked").val();
+            var data={"ids":ids,"addressId":addressId};
+            $.ajax({
+                type: 'post',
+                url : "/waimai/qiantaiOrder/account.action",
+                contentType:"application/json",
+                data: JSON.stringify(data),
+                success : function(r) {
+                    var data=JSON.parse(r);
+                    if(data.code==1){
+                        window.location.href="/waimai/qiantaiOrder/pay.action";
+                    }else{
+                        layer.alert("傻了吧");
+                    }
+                },
+                error : function() {
+                    layer.alert('服务器没有返回数据，可能服务器忙，请重试');
+                }
+            });
+        });
+    }
 </script>
 </body>
 </html>

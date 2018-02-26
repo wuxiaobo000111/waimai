@@ -49,4 +49,13 @@ public interface CaritemMapper {
                                   @Param(value = "userId") Integer userId);
 
     public Long countAll(Integer userId);
+
+    public CarItem getCarItemByFoodId(Integer foodId);
+
+    public void updateIsAccount(Integer caritemId);
+
+    public CarItem isExits(Integer foodId);
+
+    public void updateCarItem(@Param(value = "foodId") Integer foodId,
+                              @Param(value = "caritemNumber") Integer caritemNumber);
 }
